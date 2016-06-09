@@ -37,7 +37,7 @@ describe 'Autocomplete Manager', ->
 
       runs ->
         autocompleteManager = mainModule.autocompleteManager
-        advanceClock(autocompleteManager.providerManager.fuzzyProvider.deferBuildWordListInterval)
+        advanceClock(autocompleteManager.providerManager.defaultProvider.deferBuildWordListInterval)
 
     it 'restores the previous state', ->
 
@@ -50,8 +50,8 @@ describe 'Autocomplete Manager', ->
 
       runs ->
         # Accept suggestion
-        suggestionListView = atom.views.getView(autocompleteManager.suggestionList)
-        atom.commands.dispatch(suggestionListView, 'autocomplete-plus:confirm')
+        editorView = atom.views.getView(editor)
+        atom.commands.dispatch(editorView, 'autocomplete-plus:confirm')
 
         expect(editor.getBuffer().getLastLine()).toEqual('function')
 

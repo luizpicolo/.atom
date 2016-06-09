@@ -1,8 +1,8 @@
-'.source.ruby, .source.ruby.rails':
+'.source.ruby, .source.ruby.rails .meta.rails.controller':
 
   'redirect_to':
     'prefix': 'rt'
-    'body': 'redirect_to ${1:resource}_path'
+    'body': 'redirect_to ${1:resource}_url'
 
   'respond_to':
     'prefix': 'respond_to'
@@ -48,3 +48,17 @@
   'render_partial':
     'prefix': 'rp'
     'body': 'render "${1:action}"'
+
+  'current_user':
+    'prefix': 'cur'
+    'body': 'current_user'
+
+  'params_whitelist':
+    'prefix': 'wparams'
+    'body': """
+      def ${1:model}_params
+        params.require(:${1:model}).permit(
+          :${2:attr_1}
+        )
+      end
+    """

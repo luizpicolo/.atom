@@ -1,37 +1,39 @@
 {
   "name": "autocomplete-plus",
-  "version": "2.7.1",
+  "version": "2.31.0",
   "main": "./lib/main",
   "description": "Display possible completions in the editor while typing",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom-community/autocomplete-plus"
+    "url": "git+https://github.com/atom/autocomplete-plus.git"
   },
+  "license": "MIT",
   "engines": {
-    "atom": ">=0.183.0 <2.0.0"
+    "atom": ">=0.189.0 <2.0.0"
   },
   "dependencies": {
     "atom-slick": "^2.0.0",
-    "clear-cut": "^0.4.0",
     "fuzzaldrin": "^2.1.0",
-    "grim": "^1.2.0",
+    "fuzzaldrin-plus": "^0.1.0",
+    "grim": "^1.4.0",
     "minimatch": "^2.0.1",
     "selector-kit": "^0.1",
-    "semver": "^4.3.1",
+    "semver": "^4.3.3",
     "stable": "^0.1.5",
     "underscore-plus": "^1.6.6"
   },
   "devDependencies": {
-    "coffeelint": ">=1.8.1",
+    "coffeelint": "^1.9.7",
     "fs-plus": ">=2.4.0",
     "temp": ">=0.7.0"
   },
   "consumedServices": {
     "autocomplete.provider": {
       "versions": {
-        "1.0.0": "consumeProviderLegacy",
-        "1.1.0": "consumeProvidersLegacy",
-        "2.0.0": "consumeProvider"
+        "1.0.0": "consumeProvider_1_0",
+        "1.1.0": "consumeProvider_1_1",
+        "2.0.0": "consumeProvider_2_0",
+        "3.0.0": "consumeProvider_3_0"
       }
     },
     "snippets": {
@@ -40,16 +42,190 @@
       }
     }
   },
-  "readme": "# autocomplete+ package [![OS X Build Status](https://travis-ci.org/atom-community/autocomplete-plus.svg?branch=master)](https://travis-ci.org/atom-community/autocomplete-plus) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/4faqdkcw2d0ybgiv/branch/master?svg=true)](https://ci.appveyor.com/project/joefitzgerald/autocomplete-plus/branch/master)\n[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atom-community/autocomplete-plus)\n\n\n[View the changelog](https://github.com/atom-community/autocomplete-plus/releases)\n\nView and insert possible completions in the editor while typing\n\n![Autocomplete+](http://s14.directupload.net/images/140304/y7r7g5df.gif)\n\n**Note:** In the example above, `Show Suggestions On Keystroke` is enabled.\n\n![The Show Suggestions On Keystroke Setting](https://cloud.githubusercontent.com/assets/744740/5886909/a7071c2a-a372-11e4-9894-f12db4e8a1ae.png)\n\n## Installation\n\n* APM: `apm install autocomplete-plus`\n* Preferences: Open Atom and go to `Preferences > Packages`, search for `autocomplete-plus`, and install it\n\n## Providers\n\n`autocomplete+` has a powerful autocomplete provider API, allowing provider authors to add language-specific behavior to this package.\n\nYou should *definitely* install additional providers (the default provider bundled with this package is somewhat crude): https://github.com/atom-community/autocomplete-plus/wiki/Autocomplete-Providers\n\n## Usage\n\nJust type some stuff, and autocomplete+ will automatically show you some suggestions.\nPress `UP` and `DOWN` to select another suggestion, press `TAB` to confirm your selection. You can change the default keymap in `Preferences`:\n\n* Keymap For Confirming A Suggestion\n* Keymap For Navigating The Suggestion List\n\nAdditionally, the keymap can be customized in your keymap.cson:\n\n```coffeescript\n'atom-text-editor:not(mini).autocomplete-active':\n  'tab': 'unset!'\n  'enter': 'autocomplete-plus:confirm'\n  'up': 'unset!'\n  'down': 'unset!'\n  'ctrl-p': 'autocomplete-plus:select-previous'\n  'ctrl-n': 'autocomplete-plus:select-next'\n```\n\n## Features\n\n* Shows suggestions while typing\n* Includes a default provider (`FuzzyProvider`):\n  * Wordlist generation happens when you open a file, while editing the file, and on save\n  * Suggestions are calculated using `fuzzaldrin`\n* Exposes a provider API which can be used to extend the functionality of the package and provide targeted / contextually correct suggestions\n* Disable autocomplete for file(s) via blacklisting\n* Disable autocomplete for editor scope(s) via blacklisting\n\n## Provider API\n\nGreat autocomplete depends on having great autocomplete providers. If there is not already a great provider for the language / grammar that you are working in, please consider creating a provider.\n\n[Read the `Provider API` documentation](https://github.com/atom-community/autocomplete-plus/wiki/Provider-API) to learn how to create a new autocomplete provider.\n",
+  "configSchema": {
+    "enableAutoActivation": {
+      "title": "Show Suggestions On Keystroke",
+      "description": "Suggestions will show as you type if this preference is enabled. If it is disabled, you can still see suggestions by using the keymapping for 'autocomplete-plus:activate' (shown below).",
+      "type": "boolean",
+      "default": true,
+      "order": 1
+    },
+    "autoActivationDelay": {
+      "title": "Delay Before Suggestions Are Shown",
+      "description": "This prevents suggestions from being shown too frequently. Usually, the default works well. A lower value than the default has performance implications, and is not advised.",
+      "type": "integer",
+      "default": 100,
+      "order": 2
+    },
+    "maxVisibleSuggestions": {
+      "title": "Maximum Visible Suggestions",
+      "description": "The suggestion list will only show this many suggestions.",
+      "type": "integer",
+      "default": 10,
+      "minimum": 1,
+      "order": 3
+    },
+    "confirmCompletion": {
+      "title": "Keymap For Confirming A Suggestion",
+      "description": "You should use the key(s) indicated here to confirm a suggestion from the suggestion list and have it inserted into the file.",
+      "type": "string",
+      "default": "tab and enter",
+      "enum": [
+        "tab",
+        "enter",
+        "tab and enter",
+        "tab always, enter when suggestion explicitly selected"
+      ],
+      "order": 4
+    },
+    "useCoreMovementCommands": {
+      "title": "Use Core Movement Commands",
+      "description": "Disable this if you want to bind your own keystrokes to move around the suggestion list. You will also need to add definitions to your keymap. See: https://github.com/atom/autocomplete-plus#remapping-movement-commands",
+      "type": "boolean",
+      "default": true,
+      "order": 5
+    },
+    "fileBlacklist": {
+      "title": "File Blacklist",
+      "description": "Suggestions will not be provided for files matching this list, e.g. `*.md` for Markdown files. To blacklist more than one file extension, use comma as a separator, e.g. `*.md, *.txt` (both Markdown and text files).",
+      "type": "array",
+      "default": [
+        ".*"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "order": 6
+    },
+    "scopeBlacklist": {
+      "title": "Scope Blacklist",
+      "description": "Suggestions will not be provided for scopes matching this list. See: https://atom.io/docs/latest/behind-atom-scoped-settings-scopes-and-scope-descriptors",
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "order": 7
+    },
+    "includeCompletionsFromAllBuffers": {
+      "title": "Include Completions From All Buffers",
+      "description": "For grammars with no registered provider(s), the default provider will include completions from all buffers, instead of just the buffer you are currently editing.",
+      "type": "boolean",
+      "default": true,
+      "order": 8
+    },
+    "strictMatching": {
+      "title": "Use Strict Matching For Built-In Provider",
+      "description": "Fuzzy searching is performed if this is disabled; if it is enabled, suggestions must begin with the prefix from the current word.",
+      "type": "boolean",
+      "default": false,
+      "order": 9
+    },
+    "minimumWordLength": {
+      "description": "Only autocomplete when you've typed at least this many characters. Note: May not affect external providers.",
+      "type": "integer",
+      "default": 3,
+      "order": 10
+    },
+    "enableBuiltinProvider": {
+      "title": "Enable Built-In Provider",
+      "description": "The package comes with a built-in provider that will provide suggestions using the words in your current buffer or all open buffers. You will get better suggestions by installing additional autocomplete+ providers. To stop using the built-in provider, disable this option.",
+      "type": "boolean",
+      "default": true,
+      "order": 11
+    },
+    "builtinProviderBlacklist": {
+      "title": "Built-In Provider Blacklist",
+      "description": "Don't use the built-in provider for these selector(s).",
+      "type": "string",
+      "default": ".source.gfm",
+      "order": 12
+    },
+    "backspaceTriggersAutocomplete": {
+      "title": "Allow Backspace To Trigger Autocomplete",
+      "description": "If enabled, typing `backspace` will show the suggestion list if suggestions are available. If disabled, suggestions will not be shown while backspacing.",
+      "type": "boolean",
+      "default": false,
+      "order": 13
+    },
+    "enableAutoConfirmSingleSuggestion": {
+      "title": "Automatically Confirm Single Suggestion",
+      "description": "If enabled, automatically insert suggestion on manual activation with 'autocomplete-plus:activate' when there is only one match.",
+      "type": "boolean",
+      "default": true,
+      "order": 14
+    },
+    "suggestionListFollows": {
+      "title": "Suggestions List Follows",
+      "description": "With 'Cursor' the suggestion list appears at the cursor's position. With 'Word' it appears at the beginning of the word that's being completed.",
+      "type": "string",
+      "default": "Word",
+      "enum": [
+        "Word",
+        "Cursor"
+      ],
+      "order": 15
+    },
+    "defaultProvider": {
+      "description": "Using the Symbol provider is experimental. You must reload Atom to use a new provider after changing this option.",
+      "type": "string",
+      "default": "Symbol",
+      "enum": [
+        "Fuzzy",
+        "Symbol"
+      ],
+      "order": 16
+    },
+    "suppressActivationForEditorClasses": {
+      "title": "Suppress Activation For Editor Classes",
+      "description": "Don't auto-activate when any of these classes are present in the editor.",
+      "type": "array",
+      "default": [
+        "vim-mode.command-mode",
+        "vim-mode.visual-mode",
+        "vim-mode.operator-pending-mode"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "order": 17
+    },
+    "consumeSuffix": {
+      "title": "Consume suggestion text following the cursor",
+      "description": "Completing a suggestion consumes text following the cursor matching the suffix of the chosen suggestion.",
+      "type": "boolean",
+      "default": true,
+      "order": 18
+    },
+    "useAlternateScoring": {
+      "description": "Prefers runs of consecutive characters, acronyms and start of words. (Experimental)",
+      "type": "boolean",
+      "default": true,
+      "order": 19
+    },
+    "useLocalityBonus": {
+      "description": "Gives words near the cursor position a higher score than those far away",
+      "type": "boolean",
+      "default": true,
+      "order": 20
+    },
+    "enableExtendedUnicodeSupport": {
+      "description": "Identifies non-latin alphabet characters as letters",
+      "type": "boolean",
+      "default": false,
+      "order": 21
+    }
+  },
+  "readme": "# autocomplete+ [![OS X Build Status](https://travis-ci.org/atom/autocomplete-plus.svg?branch=master)](https://travis-ci.org/atom/autocomplete-plus) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/4faqdkcw2d0ybgiv/branch/master?svg=true)](https://ci.appveyor.com/project/joefitzgerald/autocomplete-plus/branch/master) [![Slack](https://img.shields.io/badge/chat-atomio%2Eslack%2Ecom-blue.svg?style=flat-square)](http://atom-slack.herokuapp.com/)\n\nDisplays possible autocomplete suggestions on keystroke (or manually by typing `ctrl-space`) and inserts a suggestion in the editor if confirmed.\n\n![autocomplete+](https://cloud.githubusercontent.com/assets/744740/7656861/9fb8bcc4-faea-11e4-9814-9dca218ded93.png)\n\n[Changelog](https://github.com/atom/autocomplete-plus/releases)\n\n## Installation\n\nautocomplete+ is bundled with Atom. You don't have to do anything to install it.\n\n## Providers\n\n`autocomplete+` has a powerful autocomplete provider API, allowing provider authors to add language-specific behavior to this package.\n\nYou should *definitely* install additional providers (the default provider bundled with this package is somewhat crude): https://github.com/atom/autocomplete-plus/wiki/Autocomplete-Providers\n\n## Usage\n\nJust type some stuff, and autocomplete+ will automatically show you some suggestions.\nPress `UP` and `DOWN` to select another suggestion, press `TAB` or `ENTER` to confirm your selection. You can change the default keymap in `Preferences`:\n\n* Keymap For Confirming A Suggestion\n\nAdditionally, the confirm keymap can be customized in your keymap.cson:\n\n```coffeescript\n'atom-text-editor.autocomplete-active':\n  'tab': 'unset!'\n  'ctrl-shift-a': 'autocomplete-plus:confirm'\n```\n\n### Remapping Movement Commands\n\nBy default, autocomplete-plus commandeers the editor's core movement commands when the suggestion list is open. You may want to change these movement commands to use your own keybindings.\n\nFirst you need to set the `autocomplete-plus.useCoreMovementCommands` setting to `false`, which you can do from the `autocomplete-plus` settings in the settings view.\n\n![core-movement](https://cloud.githubusercontent.com/assets/69169/8839134/72a9c7e6-3087-11e5-9d1f-8d3d15961327.jpg)\n\nOr by adding this to your config file:\n\n```coffee\n\"*\":\n  \"autocomplete-plus\":\n    \"useCoreMovementCommands\": false\n```\n\nThen add these to your keymap file:\n\n```coffeescript\n'body atom-text-editor.autocomplete-active':\n  'ctrl-p': 'autocomplete-plus:move-up'\n  'ctrl-n': 'autocomplete-plus:move-down'\n  'pageup': 'autocomplete-plus:page-up'\n  'pagedown': 'autocomplete-plus:page-down'\n  'home': 'autocomplete-plus:move-to-top'\n  'end': 'autocomplete-plus:move-to-bottom'\n```\n\n## Features\n\n* Shows suggestions while typing\n* Includes a default provider (`SymbolProvider`):\n  * Wordlist generation happens when you open a file, while editing the file, and on save\n  * Suggestions are calculated using `fuzzaldrin`\n* Exposes a provider API which can be used to extend the functionality of the package and provide targeted / contextually correct suggestions\n* Disable autocomplete for file(s) via blacklisting, e.g. `*.md` to blacklist Markdown files\n* Disable autocomplete for editor scope(s) via blacklisting\n* Expands a snippet if an autocomplete+ provider includes one in a suggestion\n\n## Provider API\n\nGreat autocomplete depends on having great autocomplete providers. If there is not already a great provider for the language / grammar that you are working in, please consider creating a provider.\n\n[Read the `Provider API` documentation](https://github.com/atom/autocomplete-plus/wiki/Provider-API) to learn how to create a new autocomplete provider.\n\n## `SymbolProvider` Configuration\n\nIf the default `SymbolProvider` is missing useful information for the language / grammar you're working with, please take a look at the [`SymbolProvider` Config API](https://github.com/atom/autocomplete-plus/wiki/SymbolProvider-Config-API).\n",
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/atom-community/autocomplete-plus/issues"
+    "url": "https://github.com/atom/autocomplete-plus/issues"
   },
-  "homepage": "https://github.com/atom-community/autocomplete-plus",
-  "_id": "autocomplete-plus@2.7.1",
-  "_shasum": "431ee9f92f31087e2a2d8287e48b4af7575a6ae8",
-  "_resolved": "file:../d-115231-2836-17lk2t9/package.tgz",
-  "_from": "../d-115231-2836-17lk2t9/package.tgz",
+  "homepage": "https://github.com/atom/autocomplete-plus#readme",
+  "_id": "autocomplete-plus@2.31.0",
+  "_shasum": "fc2fbe06a29d6736fafd74d975c7fe01efe5f677",
+  "_resolved": "file:../d-11658-3626-qstl0p/package.tgz",
+  "_from": "../d-11658-3626-qstl0p/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -59,69 +235,19 @@
         "path": "node_modules/atom-slick/index.js"
       },
       {
-        "name": "clear-cut",
-        "version": "0.4.0",
-        "path": "node_modules/clear-cut/lib/main.js"
-      },
-      {
-        "name": "specificity",
-        "version": "0.1.3",
-        "path": "node_modules/clear-cut/node_modules/specificity/specificity.js"
-      },
-      {
         "name": "fuzzaldrin",
         "version": "2.1.0",
         "path": "node_modules/fuzzaldrin/lib/fuzzaldrin.js"
       },
       {
-        "name": "grim",
-        "version": "1.2.1",
-        "path": "node_modules/grim/lib/grim.js"
-      },
-      {
-        "name": "coffeestack",
-        "version": "1.1.1",
-        "path": "node_modules/grim/node_modules/coffeestack/index.js"
-      },
-      {
-        "name": "coffee-script",
-        "version": "1.8.0",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "fs-plus",
-        "version": "2.6.0",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js"
-      },
-      {
-        "name": "async",
-        "version": "0.2.10",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/lib/async.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "rimraf",
-        "version": "2.2.8",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/rimraf.js"
-      },
-      {
-        "name": "source-map",
-        "version": "0.1.43",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js"
-      },
-      {
-        "name": "amdefine",
+        "name": "fuzzaldrin-plus",
         "version": "0.1.0",
-        "path": "node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
+        "path": "node_modules/fuzzaldrin-plus/lib/fuzzaldrin.js"
+      },
+      {
+        "name": "grim",
+        "version": "1.5.0",
+        "path": "node_modules/grim/lib/grim.js"
       },
       {
         "name": "emissary",
@@ -130,7 +256,7 @@
       },
       {
         "name": "es6-weak-map",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/index.js"
       },
       {
@@ -140,12 +266,17 @@
       },
       {
         "name": "es5-ext",
-        "version": "0.10.6",
+        "version": "0.10.11",
         "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/index.js"
       },
       {
+        "name": "es6-iterator",
+        "version": "2.0.0",
+        "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/index.js"
+      },
+      {
         "name": "es6-symbol",
-        "version": "2.0.1",
+        "version": "3.0.2",
         "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js"
       },
       {
@@ -156,11 +287,6 @@
       {
         "name": "es6-symbol",
         "version": "2.0.1",
-        "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/index.js"
-      },
-      {
-        "name": "es6-symbol",
-        "version": "0.1.1",
         "path": "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/index.js"
       },
       {
@@ -175,17 +301,17 @@
       },
       {
         "name": "minimatch",
-        "version": "2.0.4",
+        "version": "2.0.10",
         "path": "node_modules/minimatch/minimatch.js"
       },
       {
         "name": "brace-expansion",
-        "version": "1.1.0",
+        "version": "1.1.4",
         "path": "node_modules/minimatch/node_modules/brace-expansion/index.js"
       },
       {
         "name": "balanced-match",
-        "version": "0.2.0",
+        "version": "0.4.1",
         "path": "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/index.js"
       },
       {
@@ -200,7 +326,7 @@
       },
       {
         "name": "semver",
-        "version": "4.3.3",
+        "version": "4.3.6",
         "path": "node_modules/semver/semver.js"
       },
       {
@@ -223,23 +349,12 @@
       ".json": [
         "coffeelint.json",
         "node_modules/atom-slick/package.json",
-        "node_modules/clear-cut/node_modules/specificity/package.json",
-        "node_modules/clear-cut/package.json",
         "node_modules/fuzzaldrin/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/component.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/package.json",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/package.json",
-        "node_modules/grim/node_modules/coffeestack/package.json",
+        "node_modules/fuzzaldrin-plus/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/d/package.json",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/package.json",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/package.json",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/package.json",
@@ -263,70 +378,34 @@
         "lib/autocomplete-manager.coffee",
         "lib/fuzzy-provider.coffee",
         "lib/main.coffee",
+        "lib/private-symbols.coffee",
         "lib/provider-manager.coffee",
         "lib/provider-metadata.coffee",
+        "lib/ref-counted-token-list.coffee",
         "lib/scope-helpers.coffee",
+        "lib/snippet-parser.coffee",
         "lib/suggestion-list-element.coffee",
         "lib/suggestion-list.coffee",
-        "lib/symbol-provider.coffee"
+        "lib/symbol-provider.coffee",
+        "lib/type-helpers.coffee",
+        "lib/unicode-helpers.coffee"
       ],
       ".js": [
+        "lib/symbol-store.js",
         "node_modules/atom-slick/finder.js",
         "node_modules/atom-slick/index.js",
         "node_modules/atom-slick/parser.js",
-        "node_modules/clear-cut/lib/main.js",
-        "node_modules/clear-cut/node_modules/specificity/specificity.js",
         "node_modules/fuzzaldrin/lib/filter.js",
         "node_modules/fuzzaldrin/lib/fuzzaldrin.js",
         "node_modules/fuzzaldrin/lib/matcher.js",
         "node_modules/fuzzaldrin/lib/scorer.js",
+        "node_modules/fuzzaldrin-plus/lib/filter.js",
+        "node_modules/fuzzaldrin-plus/lib/fuzzaldrin.js",
+        "node_modules/fuzzaldrin-plus/lib/legacy.js",
+        "node_modules/fuzzaldrin-plus/lib/matcher.js",
+        "node_modules/fuzzaldrin-plus/lib/scorer.js",
         "node_modules/grim/lib/deprecation.js",
         "node_modules/grim/lib/grim.js",
-        "node_modules/grim/node_modules/coffeestack/index.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/browser.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/cake.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/command.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/grammar.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/helpers.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/index.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/lexer.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/nodes.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/optparse.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/parser.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/register.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/repl.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/rewriter.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/scope.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/sourcemap.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/examples/pow.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/register.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/repl.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib/fs-plus.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/async/lib/async.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/mkdirp/index.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/bin.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/node_modules/rimraf/rimraf.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/Makefile.dryice.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/assert-shim.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/mini-require.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/suffix-browser.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-prefix.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-suffix.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/array-set.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64-vlq.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/binary-search.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/mapping-list.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-consumer.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-generator.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-node.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/util.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js",
-        "node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/intercept.js",
         "node_modules/grim/node_modules/emissary/lib/behavior.js",
         "node_modules/grim/node_modules/emissary/lib/emissary.js",
         "node_modules/grim/node_modules/emissary/lib/emitter.js",
@@ -474,6 +553,11 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function/valid-function.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/global.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/index.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/for-each.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/index.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/is.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/validate-object.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/validate.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/_pack-ieee754.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/_unpack-ieee754.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/acosh/implement.js",
@@ -545,6 +629,14 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/is-implemented.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/shim.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/#/chain.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/array.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/for-of.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/get.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/index.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/is-iterable.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/string.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/valid-iterable.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/implement.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-implemented.js",
@@ -570,6 +662,7 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/is-implemented.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-nan/shim.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-natural.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-number.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-safe-integer/implement.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/is-safe-integer/index.js",
@@ -596,9 +689,13 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/copy.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/count.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/create.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/ensure-natural-number-value.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/ensure-natural-number.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/eq.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/every.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/filter.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/find-key.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/find.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/first-key.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/flatten.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/for-each.js",
@@ -609,6 +706,7 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-copy-deep.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-copy.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-empty.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-number-value.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-object.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is-plain-object.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/is.js",
@@ -635,6 +733,10 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-callable.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-object.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-value.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-array-like-object.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-array-like.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-stringifiable-value.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-stringifiable.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/is-sticky.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/is-unicode.js",
@@ -702,6 +804,7 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/is-implemented.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/starts-with/shim.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/#/uncapitalize.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/format-method.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/from-code-point/implement.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/string/from-code-point/index.js",
@@ -720,13 +823,6 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/get.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/index.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/is-iterable.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/implement.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/index.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-implemented.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-native-implemented.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-symbol.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/polyfill.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/string.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/valid-iterable.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/implement.js",
@@ -735,7 +831,7 @@
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/is-native-implemented.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/is-symbol.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/polyfill.js",
-        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/valid-symbol.js",
+        "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/polyfill.js",
         "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/valid-weak-map.js",
         "node_modules/grim/node_modules/emissary/node_modules/mixto/lib/mixin.js",
@@ -744,7 +840,6 @@
         "node_modules/minimatch/minimatch.js",
         "node_modules/minimatch/node_modules/brace-expansion/example.js",
         "node_modules/minimatch/node_modules/brace-expansion/index.js",
-        "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/example.js",
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/index.js",
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/example/map.js",
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/index.js",
@@ -766,29 +861,18 @@
           "",
           "lib",
           "spec",
-          "spec/fixtures/issues",
-          "spec/fixtures",
-          "spec/issues"
+          "spec/fixtures"
         ],
         "dependencies": {
           "atom-slick": "^2.0.0",
-          "clear-cut": "^0.4.0",
           "fuzzaldrin": "^2.1.0",
-          "grim": "^1.2.0",
+          "fuzzaldrin-plus": "^0.1.0",
+          "grim": "^1.4.0",
           "minimatch": "^2.0.1",
           "selector-kit": "^0.1",
-          "semver": "^4.3.1",
+          "semver": "^4.3.3",
           "stable": "^0.1.5",
           "underscore-plus": "^1.6.6"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/clear-cut/lib",
-          "node_modules/clear-cut"
-        ],
-        "dependencies": {
-          "specificity": "0.1.3"
         }
       },
       {
@@ -797,52 +881,7 @@
           "node_modules/grim"
         ],
         "dependencies": {
-          "coffeestack": "^1",
           "emissary": "^1.2.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/grim/node_modules/coffeestack"
-        ],
-        "dependencies": {
-          "coffee-script": "~1.8.0",
-          "fs-plus": "^2.5.0",
-          "source-map": "~0.1.43"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script",
-          "node_modules/grim/node_modules/coffeestack/node_modules/coffee-script"
-        ],
-        "dependencies": {
-          "mkdirp": "~0.3.5"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus/lib",
-          "node_modules/grim/node_modules/coffeestack/node_modules/fs-plus"
-        ],
-        "dependencies": {
-          "underscore-plus": "1.x",
-          "mkdirp": "~0.3.5",
-          "rimraf": "~2.2.2",
-          "async": "~0.2.9"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map",
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map/build",
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map",
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib",
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map/test",
-          "node_modules/grim/node_modules/coffeestack/node_modules/source-map/test/source-map"
-        ],
-        "dependencies": {
-          "amdefine": ">=0.0.4"
         }
       },
       {
@@ -864,9 +903,9 @@
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.4",
-          "es6-iterator": "~0.1.1",
-          "es6-symbol": "0.1.x"
+          "es5-ext": "~0.10.6",
+          "es6-iterator": "~0.1.3",
+          "es6-symbol": "~2.0.1"
         }
       },
       {
@@ -905,6 +944,7 @@
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function/#",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext",
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/acosh",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/asinh",
@@ -980,6 +1020,7 @@
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/error",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/function/#",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/function",
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/iterable",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math/acosh",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math/asinh",
@@ -1032,8 +1073,21 @@
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/string/raw"
         ],
         "dependencies": {
-          "es6-iterator": "~0.1.3",
-          "es6-symbol": "~2.0.1"
+          "es6-iterator": "2",
+          "es6-symbol": "~3.0.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/#",
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator",
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/test/#",
+          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-iterator/test"
+        ],
+        "dependencies": {
+          "d": "^0.1.1",
+          "es5-ext": "^0.10.7",
+          "es6-symbol": "3"
         }
       },
       {
@@ -1043,7 +1097,7 @@
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.5"
+          "es5-ext": "~0.10.10"
         }
       },
       {
@@ -1061,22 +1115,12 @@
       },
       {
         "paths": [
-          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol",
-          "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/test"
-        ],
-        "dependencies": {
-          "d": "~0.1.1",
-          "es5-ext": "~0.10.5"
-        }
-      },
-      {
-        "paths": [
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol",
           "node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/test"
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.4"
+          "es5-ext": "~0.10.5"
         }
       },
       {
@@ -1099,11 +1143,10 @@
       },
       {
         "paths": [
-          "node_modules/minimatch/node_modules/brace-expansion",
-          "node_modules/minimatch/node_modules/brace-expansion/test"
+          "node_modules/minimatch/node_modules/brace-expansion"
         ],
         "dependencies": {
-          "balanced-match": "^0.2.0",
+          "balanced-match": "^0.4.1",
           "concat-map": "0.0.1"
         }
       },

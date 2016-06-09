@@ -2,9 +2,7 @@
 
 This is a snippets package for Atom. It is a conversion of an old jQuery snippets for sublime text.
 
-This package is pretty much a copy-paste from [zenorocha/atom-javascript-snippets](https://github.com/zenorocha/atom-javascript-snippets). Except it's jquery specific.
-
-Some of these snippets have yet to be tested fully. Also Atoms snippets system is very weak. You can see a [bunch of issues](https://github.com/atom/snippets/issues) on the repo.
+This package is pretty much a copy-paste from [zenorocha/atom-javascript-snippets](https://github.com/zenorocha/atom-javascript-snippets). Except it's jQuery specific.
 
 ## Patching snippets
 
@@ -43,8 +41,10 @@ $ apm link
 * $isWindow
 * $map
 * $merge
+* $noConflict
 * $noop
 * $now
+* $parseHTML
 * $parseJSON
 * $parseXML
 * $post
@@ -54,8 +54,8 @@ $ apm link
 * $unique
 * $when
 * add
-* addback
 * addClass
+* addback
 * after
 * ajax
 * ajaxComplete
@@ -85,6 +85,7 @@ $ apm link
 * delay
 * delegate
 * dequeue
+* detach
 * die
 * document-ready-1
 * document-ready-2
@@ -149,14 +150,15 @@ $ apm link
 * parent
 * parents
 * parentsUntil
+* position
 * prepend
 * prependTo
 * prev
 * prevAll
 * prevUntil
 * promise
-* prop
 * prop(map)
+* prop
 * reject
 * remove
 * removeAttr
@@ -214,7 +216,7 @@ $ apm link
 
 ### MIT License
 
-Copyright (c) 2014 [James Doyle](http://twitter.com/james2doyle) james2doyle@gmail.com
+Copyright (c) 2015 [James Doyle](http://twitter.com/james2doyle) james2doyle@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

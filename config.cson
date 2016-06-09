@@ -1,13 +1,12 @@
 "*":
+  core:
+    disabledPackages: [
+      "git-control"
+    ]
   editor:
     fontSize: 16
-  core:
-    themes: [
-      "one-light-ui"
-      "one-light-syntax"
-    ]
   "exception-reporting":
     userId: "2f9b05bb-a573-8afd-143a-b329372e7b0e"
+  linter: {}
   welcome:
     showOnStartup: false
-  linter: {}

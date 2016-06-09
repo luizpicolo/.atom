@@ -1,10 +1,11 @@
 {CompositeDisposable, Disposable} = require 'atom'
-_ = require 'underscore-plus'
+{isFunction, isString} = require('./type-helpers')
 semver = require 'semver'
 {Selector} = require 'selector-kit'
 stableSort = require 'stable'
 
 {selectorsMatchScopeChain} = require('./scope-helpers')
+{API_VERSION} = require './private-symbols'
 
 # Deferred requires
 SymbolProvider = null
@@ -14,8 +15,9 @@ ProviderMetadata = null
 
 module.exports =
 class ProviderManager
-  fuzzyProvider: null
-  fuzzyRegistration: null
+  defaultProvider: null
+  defaultProviderRegistration: null
+  providers: null
   store: null
   subscriptions: null
   globalBlacklist: null
@@ -23,60 +25,89 @@ class ProviderManager
   constructor: ->
     @subscriptions = new CompositeDisposable
     @globalBlacklist = new CompositeDisposable
+    @subscriptions.add(@globalBlacklist)
     @providers = []
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableBuiltinProvider', (value) => @toggleFuzzyProvider(value)))
+    @subscriptions.add(atom.config.observe('autocomplete-plus.enableBuiltinProvider', (value) => @toggleDefaultProvider(value)))
     @subscriptions.add(atom.config.observe('autocomplete-plus.scopeBlacklist', (value) => @setGlobalBlacklist(value)))
 
   dispose: ->
-    @toggleFuzzyProvider(false)
+    @toggleDefaultProvider(false)
     @subscriptions?.dispose()
     @subscriptions = null
+    @globalBlacklist = null
     @providers = null
 
-  providersForScopeDescriptor: (scopeDescriptor) =>
+  applicableProviders: (editor, scopeDescriptor) =>
+    providers = @filterProvidersByEditor(@providers, editor)
+    providers = @filterProvidersByScopeDescriptor(providers, scopeDescriptor)
+    providers = @sortProviders(providers, scopeDescriptor)
+    providers = @filterProvidersByExcludeLowerPriority(providers)
+    @removeMetadata(providers)
+
+  filterProvidersByScopeDescriptor: (providers, scopeDescriptor) ->
     scopeChain = scopeChainForScopeDescriptor(scopeDescriptor)
     return [] unless scopeChain
     return [] if @globalBlacklistSelectors? and selectorsMatchScopeChain(@globalBlacklistSelectors, scopeChain)
 
     matchingProviders = []
     disableDefaultProvider = false
-    lowestIncludedPriority = 0
-
-    for providerMetadata in @providers
+    defaultProviderMetadata = null
+    for providerMetadata in providers
       {provider} = providerMetadata
+      if provider is @defaultProvider
+        defaultProviderMetadata = providerMetadata
       if providerMetadata.matchesScopeChain(scopeChain)
-        matchingProviders.push(provider)
-        if provider.excludeLowerPriority?
-          lowestIncludedPriority = Math.max(lowestIncludedPriority, provider.inclusionPriority ? 0)
+        matchingProviders.push(providerMetadata)
         if providerMetadata.shouldDisableDefaultProvider(scopeChain)
           disableDefaultProvider = true
 
-    matchingProviders = _.without(matchingProviders, @fuzzyProvider) if disableDefaultProvider
-    matchingProviders = (provider for provider in matchingProviders when (provider.inclusionPriority ? 0) >= lowestIncludedPriority)
-    stableSort matchingProviders, (providerA, providerB) =>
-      specificityA = @metadataForProvider(providerA).getSpecificity(scopeChain)
-      specificityB = @metadataForProvider(providerB).getSpecificity(scopeChain)
-      difference = specificityB - specificityA
-      difference = (providerB.suggestionPriority ? 1) - (providerA.suggestionPriority ? 1) if difference is 0
+    if disableDefaultProvider
+      index = matchingProviders.indexOf(defaultProviderMetadata)
+      matchingProviders.splice(index, 1) if index > -1
+    matchingProviders
+
+  sortProviders: (providers, scopeDescriptor) ->
+    scopeChain = scopeChainForScopeDescriptor(scopeDescriptor)
+    stableSort providers, (providerA, providerB) ->
+      difference = (providerB.provider.suggestionPriority ? 1) - (providerA.provider.suggestionPriority ? 1)
+      if difference is 0
+        specificityA = providerA.getSpecificity(scopeChain)
+        specificityB = providerB.getSpecificity(scopeChain)
+        difference = specificityB - specificityA
       difference
 
-  toggleFuzzyProvider: (enabled) =>
+  filterProvidersByEditor: (providers, editor) ->
+    providers.filter((providerMetadata) ->
+      providerMetadata.matchesEditor(editor))
+
+  filterProvidersByExcludeLowerPriority: (providers) ->
+    lowestAllowedPriority = 0
+    for providerMetadata in providers
+      {provider} = providerMetadata
+      if provider.excludeLowerPriority
+        lowestAllowedPriority = Math.max(lowestAllowedPriority, provider.inclusionPriority ? 0)
+    providerMetadata for providerMetadata in providers when (providerMetadata.provider.inclusionPriority ? 0) >= lowestAllowedPriority
+
+  removeMetadata: (providers) ->
+    providers.map((providerMetadata) -> providerMetadata.provider)
+
+  toggleDefaultProvider: (enabled) =>
     return unless enabled?
 
     if enabled
-      return if @fuzzyProvider? or @fuzzyRegistration?
+      return if @defaultProvider? or @defaultProviderRegistration?
       if atom.config.get('autocomplete-plus.defaultProvider') is 'Symbol'
         SymbolProvider ?= require('./symbol-provider')
-        @fuzzyProvider = new SymbolProvider()
+        @defaultProvider = new SymbolProvider()
       else
         FuzzyProvider ?= require('./fuzzy-provider')
-        @fuzzyProvider = new FuzzyProvider()
-      @fuzzyRegistration = @registerProvider(@fuzzyProvider)
+        @defaultProvider = new FuzzyProvider()
+      @defaultProviderRegistration = @registerProvider(@defaultProvider)
     else
-      @fuzzyRegistration.dispose() if @fuzzyRegistration?
-      @fuzzyProvider.dispose() if @fuzzyProvider?
-      @fuzzyRegistration = null
-      @fuzzyProvider = null
+      @defaultProviderRegistration?.dispose()
+      @defaultProvider?.dispose()
+      @defaultProviderRegistration = null
+      @defaultProvider = null
 
   setGlobalBlacklist: (globalBlacklist) =>
     @globalBlacklistSelectors = null
@@ -86,9 +117,12 @@ class ProviderManager
   isValidProvider: (provider, apiVersion) ->
     # TODO API: Check based on the apiVersion
     if semver.satisfies(apiVersion, '>=2.0.0')
-      provider? and _.isFunction(provider.getSuggestions) and _.isString(provider.selector) and !!provider.selector.length
+      provider? and
+      isFunction(provider.getSuggestions) and
+      ((isString(provider.selector) and !!provider.selector.length) or
+       (isString(provider.scopeSelector) and !!provider.scopeSelector.length))
     else
-      provider? and _.isFunction(provider.requestHandler) and _.isString(provider.selector) and !!provider.selector.length
+      provider? and isFunction(provider.requestHandler) and isString(provider.selector) and !!provider.selector.length
 
   metadataForProvider: (provider) =>
     for providerMetadata in @providers
@@ -101,7 +135,7 @@ class ProviderManager
   isProviderRegistered: (provider) ->
     @metadataForProvider(provider)?
 
-  addProvider: (provider, apiVersion='2.0.0') =>
+  addProvider: (provider, apiVersion='3.0.0') =>
     return if @isProviderRegistered(provider)
     ProviderMetadata ?= require './provider-metadata'
     @providers.push new ProviderMetadata(provider, apiVersion)
@@ -115,19 +149,22 @@ class ProviderManager
         break
     @subscriptions?.remove(provider) if provider.dispose?
 
-  registerProvider: (provider, apiVersion='2.0.0') =>
+  registerProvider: (provider, apiVersion='3.0.0') =>
     return unless provider?
 
-    apiIs20 = semver.satisfies(apiVersion, '>=2.0.0')
+    provider[API_VERSION] = apiVersion
 
-    if apiIs20
-      if provider.id? and provider isnt @fuzzyProvider
+    apiIs2_0 = semver.satisfies(apiVersion, '>=2.0.0')
+    apiIs3_0 = semver.satisfies(apiVersion, '>=3.0.0')
+
+    if apiIs2_0
+      if provider.id? and provider isnt @defaultProvider
         grim ?= require 'grim'
         grim.deprecate """
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains an `id` property.
           An `id` attribute on your provider is no longer necessary.
-          See https://github.com/atom-community/autocomplete-plus/wiki/Provider-API
+          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
       if provider.requestHandler?
         grim ?= require 'grim'
@@ -135,27 +172,38 @@ class ProviderManager
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains a `requestHandler` property.
           `requestHandler` has been renamed to `getSuggestions`.
-          See https://github.com/atom-community/autocomplete-plus/wiki/Provider-API
+          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
       if provider.blacklist?
         grim ?= require 'grim'
         grim.deprecate """
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains a `blacklist` property.
-          `blacklist` has been renamed to `disableForSelector`.
-          See https://github.com/atom-community/autocomplete-plus/wiki/Provider-API
+          `blacklist` has been renamed to `disableForScopeSelector`.
+          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
+
+    if apiIs3_0
+      if provider.selector?
+        throw new Error("""
+          Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
+          specifies `selector` instead of the `scopeSelector` attribute.
+          See https://github.com/atom/autocomplete-plus/wiki/Provider-API.
+        """)
+
+      if provider.disableForSelector?
+        throw new Error("""
+          Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
+          specifies `disableForSelector` instead of the `disableForScopeSelector`
+          attribute.
+          See https://github.com/atom/autocomplete-plus/wiki/Provider-API.
+        """)
 
     unless @isValidProvider(provider, apiVersion)
       console.warn "Provider #{provider.constructor.name} is not valid", provider
-      return
+      return new Disposable()
 
     return if @isProviderRegistered(provider)
-
-    # TODO API: Deprecate the 1.0 APIs
-    selector = provider.selector
-    disabledSelector = provider.disableForSelector
-    disabledSelector = provider.blacklist unless apiIs20
 
     @addProvider(provider, apiVersion)
 

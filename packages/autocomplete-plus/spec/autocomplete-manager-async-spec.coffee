@@ -27,9 +27,6 @@ describe 'Async providers', ->
       mainModule = a.mainModule
 
     waitsFor ->
-      mainModule.autocompleteManager?.ready
-
-    runs ->
       autocompleteManager = mainModule.autocompleteManager
 
   afterEach ->
@@ -50,7 +47,7 @@ describe 'Async providers', ->
               )
             , 10
             )
-        selector: '.source.js'
+        scopeSelector: '.source.js'
       registration = atom.packages.serviceHub.provide('autocomplete.provider', '2.0.0', testAsyncProvider)
 
     it 'should provide completions when a provider returns a promise that results in an array of suggestions', ->
@@ -61,12 +58,12 @@ describe 'Async providers', ->
 
       runs ->
         suggestionListView = atom.views.getView(autocompleteManager.suggestionList)
-        expect(suggestionListView.querySelector('li .completion-label')).toHaveText('asyncProvided')
+        expect(suggestionListView.querySelector('li .right-label')).toHaveText('asyncProvided')
 
   describe 'when a provider takes a long time to provide suggestions', ->
     beforeEach ->
       testAsyncProvider =
-        selector: '.source.js'
+        scopeSelector: '.source.js'
         getSuggestions: (options) ->
           return new Promise((resolve) ->
             setTimeout ->
