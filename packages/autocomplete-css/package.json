@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-css",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "description": "CSS property name and value autocompletions",
   "main": "./lib/main",
   "license": "MIT",
@@ -29,10 +29,10 @@
     "url": "https://github.com/atom/autocomplete-css/issues"
   },
   "homepage": "https://github.com/atom/autocomplete-css#readme",
-  "_id": "autocomplete-css@0.11.1",
-  "_shasum": "0cc53ef95ef1faeacf07f39f85aa1e52db4cf760",
-  "_resolved": "file:../d-11658-3820-cjxhaj/package.tgz",
-  "_from": "../d-11658-3820-cjxhaj/package.tgz",
+  "_id": "autocomplete-css@0.11.2",
+  "_shasum": "10bdd7138c73c215a46137d7fe15c56990aa36a9",
+  "_resolved": "file:../d-116730-11244-2ob7mi/package.tgz",
+  "_from": "../d-116730-11244-2ob7mi/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
