@@ -3,6 +3,7 @@
     disabledPackages: [
       "git-control"
     ]
+    telemetryConsent: "no"
   editor:
     fontSize: 16
   "exception-reporting":

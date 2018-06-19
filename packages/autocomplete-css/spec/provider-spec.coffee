@@ -8,6 +8,14 @@ packagesToTest =
   Less:
     name: 'language-less'
     file: 'test.less'
+  PostCSS:
+    name: 'language-postcss'
+    file: 'test.postcss'
+
+Object.keys(packagesToTest).forEach (packageLabel) ->
+  unless atom.packages.getAvailablePackageNames().includes(packagesToTest[packageLabel].name)
+    console.warn "Skipping tests for #{packageLabel} because it is not installed"
+    delete packagesToTest[packageLabel]
 
 describe "CSS property name and value autocompletions", ->
   [editor, provider] = []
@@ -27,6 +35,7 @@ describe "CSS property name and value autocompletions", ->
 
   beforeEach ->
     waitsForPromise -> atom.packages.activatePackage('autocomplete-css')
+    waitsForPromise -> atom.packages.activatePackage('language-css') # Used in all CSS languages
 
     runs ->
       provider = atom.packages.getActivePackage('autocomplete-css').mainModule.getProvider()
@@ -63,7 +72,7 @@ describe "CSS property name and value autocompletions", ->
         """
         editor.setCursorBufferPosition([1, 0])
         completions = getCompletions(activatedManually: true)
-        expect(completions.length).toBe 209
+        expect(completions.length).toBe 237
         for completion in completions
           expect(completion.text.length).toBeGreaterThan 0
           expect(completion.type).toBe 'property'
@@ -233,7 +242,7 @@ describe "CSS property name and value autocompletions", ->
         """
         editor.setCursorBufferPosition([1, 10])
         completions = getCompletions()
-        expect(completions.length).toBe 21
+        expect(completions.length).toBe 24
         for completion in completions
           expect(completion.text.length).toBeGreaterThan 0
           expect(completion.description.length).toBeGreaterThan 0
@@ -247,7 +256,7 @@ describe "CSS property name and value autocompletions", ->
         """
         editor.setCursorBufferPosition([2, 0])
         completions = getCompletions()
-        expect(completions.length).toBe 21
+        expect(completions.length).toBe 24
         for completion in completions
           expect(completion.text.length).toBeGreaterThan 0
 
@@ -321,6 +330,90 @@ describe "CSS property name and value autocompletions", ->
         completions = getCompletions()
         expect(completions).toHaveLength 1
         expect(completions[0].text).toBe 'center;'
+
+      it "does not complete property values after percentage signs", ->
+        editor.setText """
+          body {
+            width: 100%
+          }
+        """
+        editor.setCursorBufferPosition([1, 13])
+        completions = getCompletions()
+        expect(completions).toHaveLength 0
+
+      it "it doesn't add semicolon after a property if one is already present", ->
+        editor.setText """
+          body {
+            display: i;
+          }
+        """
+        editor.setCursorBufferPosition([1, 12])
+        completions = getCompletions()
+        completions.forEach (completion) ->
+          expect(completion.text).not.toMatch(/;\s*$/)
+
+      it "autocompletes inline property values", ->
+        editor.setText "body { display: }"
+        editor.setCursorBufferPosition([0, 16])
+        completions = getCompletions()
+        expect(completions).toHaveLength 24
+        expect(completions[0].text).toBe 'block;'
+
+        editor.setText """
+          body {
+            display: block; float:
+          }
+        """
+        editor.setCursorBufferPosition([1, 24])
+        completions = getCompletions()
+        expect(completions).toHaveLength 4
+        expect(completions[0].text).toBe 'left;'
+
+      it "autocompletes more than one inline property value", ->
+        editor.setText "body { display: block; float: }"
+        editor.setCursorBufferPosition([0, 30])
+        completions = getCompletions()
+        expect(completions).toHaveLength 4
+        expect(completions[0].text).toBe 'left;'
+
+        editor.setText "body { display: block; float: left; cursor: alias; text-decoration: }"
+        editor.setCursorBufferPosition([0, 68])
+        completions = getCompletions()
+        expect(completions).toHaveLength 5
+        expect(completions[0].text).toBe 'line-through;'
+
+      it "autocompletes inline property values with a prefix", ->
+        editor.setText "body { display: i }"
+        editor.setCursorBufferPosition([0, 17])
+        completions = getCompletions()
+        expect(completions).toHaveLength 6
+        expect(completions[0].text).toBe 'inline;'
+        expect(completions[1].text).toBe 'inline-block;'
+        expect(completions[2].text).toBe 'inline-flex;'
+        expect(completions[3].text).toBe 'inline-grid;'
+        expect(completions[4].text).toBe 'inline-table;'
+        expect(completions[5].text).toBe 'inherit;'
+
+        editor.setText "body { display: i}"
+        editor.setCursorBufferPosition([0, 17])
+        completions = getCompletions()
+        expect(completions).toHaveLength 6
+        expect(completions[0].text).toBe 'inline;'
+        expect(completions[1].text).toBe 'inline-block;'
+        expect(completions[2].text).toBe 'inline-flex;'
+        expect(completions[3].text).toBe 'inline-grid;'
+        expect(completions[4].text).toBe 'inline-table;'
+        expect(completions[5].text).toBe 'inherit;'
+
+      it "autocompletes inline property values that aren't at the end of the line", ->
+        editor.setText "body { float: display: inline; font-weight: bold; }"
+        editor.setCursorBufferPosition([0, 14]) # right before display
+        completions = getCompletions()
+        expect(completions).toHaveLength 4
+        expect(completions[0].text).toBe 'left;'
+        expect(completions[1].text).toBe 'right;'
+        expect(completions[2].text).toBe 'none;'
+        expect(completions[3].text).toBe 'inherit;'
 
       it "autocompletes !important in property-value scope", ->
         editor.setText """
@@ -463,7 +556,7 @@ describe "CSS property name and value autocompletions", ->
           expect(completions[0].text).toBe ':first'
 
   Object.keys(packagesToTest).forEach (packageLabel) ->
-    if packagesToTest[packageLabel].name in ['language-sass', 'language-less']
+    unless packagesToTest[packageLabel].name is 'language-css'
       describe "#{packageLabel} files", ->
         beforeEach ->
           waitsForPromise -> atom.packages.activatePackage(packagesToTest[packageLabel].name)
@@ -608,7 +701,7 @@ describe "CSS property name and value autocompletions", ->
       """
       editor.setCursorBufferPosition([1, 10])
       completions = getCompletions()
-      expect(completions.length).toBe 21
+      expect(completions.length).toBe 24
       for completion in completions
         expect(completion.text.length).toBeGreaterThan 0
         expect(completion.description.length).toBeGreaterThan 0
@@ -620,7 +713,7 @@ describe "CSS property name and value autocompletions", ->
       """
       editor.setCursorBufferPosition([2, 0])
       completions = getCompletions()
-      expect(completions.length).toBe 21
+      expect(completions.length).toBe 24
       for completion in completions
         expect(completion.text.length).toBeGreaterThan 0
 

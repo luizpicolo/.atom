@@ -86,6 +86,7 @@
   "border-top-right-radius",
   "border-bottom-left-radius",
   "border-bottom-right-radius",
+  "user-select",
   "text-transform",
   "webkit-transition",
   "zoom",
@@ -392,6 +393,7 @@
   "grid-row",
   "grid-template",
   "text-line-through-width",
+  "caret-color",
   "justify-items",
   "grid-template-columns",
   "grid-auto-columns",
@@ -448,5 +450,13 @@
   "text-emphasis",
   "text-emphasis-color",
   "text-emphasis-position",
-  "text-emphasis-style"
+  "text-emphasis-style",
+  "font-display",
+  "grid",
+  "grid-area",
+  "grid-column-gap",
+  "grid-gap",
+  "grid-row-gap",
+  "grid-template-areas",
+  "hanging-punctuation"
 ]

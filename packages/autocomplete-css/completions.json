@@ -119,75 +119,75 @@
         "auto",
         "inherit"
       ],
-      "description": "Specifies the width of the content area of an element."
+      "description": "Specifies the width of an element."
     },
     "height": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Specifies the height of the content area of an element."
+      "description": "Specifies the height of an element."
     },
     "margin": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "with the other margin properties: margin-top, margin-right, margin-bottom and margin-left."
+      "description": "Sets the margin area on all four sides of an element."
     },
     "margin-left": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "width, margin-left, border, padding, the content area and margin-right are defined), margin-left is ignored…The margin-left CSS property of an element sets the margin space required on the left side of a box associated…allowed."
+      "description": "Sets the margin area on the left side of an element."
     },
     "margin-right": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Of an element sets the margin space required on the right side of an element…allowed."
+      "description": "Sets the margin area on the right side of an element."
     },
     "margin-top": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Of an element sets the margin space required on the top of an element."
+      "description": "Sets the margin area on the top of an element."
     },
     "margin-bottom": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Of an element sets the margin space required on the bottom of an element"
+      "description": "Sets the margin area on the bottom of an element."
     },
     "padding": {
       "values": [
         "inherit"
       ],
-      "description": "Sets the padding space on all sides of an element."
+      "description": "Sets the padding area on all four sides of an element."
     },
     "padding-left": {
       "values": [],
-      "description": "Of an element sets the padding space required on the left side of an element…element."
+      "description": "Sets the width of the padding area on the left side of an element."
     },
     "padding-right": {
       "values": [],
-      "description": "Of an element sets the padding space required on the right side of an…an element."
+      "description": "Sets the width of the padding area on the right side of an element."
     },
     "padding-top": {
       "values": [],
-      "description": "Of an element sets the padding space required on the top of an element."
+      "description": "Sets the height of the padding area on the top of an element."
     },
     "padding-bottom": {
       "values": [],
-      "description": "Of an element sets the height of the padding area at the bottom of an…Contrary to margin-bottom values, negative values of padding-bottom are invalid."
+      "description": "Sets the height of the padding area on the bottom of an element."
     },
     "font": {
       "values": [],
-      "description": "Either a shorthand property for setting font-style, font-variant, font-weight…font-weight, font-size, line-height and font-family, or a way to set the element's font to a system font, using"
+      "description": "Either a shorthand property for setting font-style, font-variant, font-weight, font-size, line-height, and font-family ; or a way to set the element's font to a system font, using specific keywords."
     },
     "font-size": {
       "values": [],
@@ -199,7 +199,7 @@
         "normal",
         "oblique"
       ],
-      "description": "Lets you select italic or oblique faces within a font-family."
+      "description": "Specifies whether a font should be styled with a normal, italic, or oblique face from its font-family."
     },
     "font-weight": {
       "values": [
@@ -218,7 +218,7 @@
         "900",
         "inherit"
       ],
-      "description": "Specifies the weight or boldness of the font."
+      "description": "Specifies the weight (or boldness) of the font."
     },
     "font-family": {
       "values": [
@@ -229,11 +229,11 @@
         "sans-serif",
         "serif"
       ],
-      "description": "Lets you specify a prioritized list of font family names and/or generic…first font on the list that is installed on the computer or that can be downloaded using a @font-face…generic family names for the selected element."
+      "description": "Specifies a prioritized list of one or more font family names and/or generic family names for the selected element."
     },
     "border": {
       "values": [],
-      "description": "Specifies all borders on an HTMLElement."
+      "description": "A shorthand property for setting all individual border property values at once: border-width, border-style, and border-color."
     },
     "border-radius": {
       "values": [],
@@ -241,28 +241,26 @@
     },
     "border-top": {
       "values": [],
-      "description": "A shorthand that sets the values of border-top-color, border-top-style…border-top-style, and border-top-width."
+      "description": "A shorthand that sets the values of border-top-color, border-top-style, and border-top-width."
     },
     "border-bottom": {
       "values": [],
-      "description": "A shorthand that sets the values of border-bottom-color, border-bottom-style…border-bottom-style, and border-bottom-width."
+      "description": "A shorthand that sets the values of border-bottom-color, border-bottom-style, and border-bottom-width."
     },
     "border-left": {
       "values": [],
-      "description": "A shorthand that sets the values of border-left-color, border-left-style…border-left-style, and border-left-width."
+      "description": "A shorthand that sets the values of border-left-color, border-left-style, and border-left-width."
     },
     "border-right": {
       "values": [],
-      "description": "A shorthand that sets the values of border-right-color, border-right-style…border-right-style, and border-right-width."
+      "description": "A shorthand that sets the values of border-right-color, border-right-style, and border-right-width."
     },
     "border-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "A shorthand for setting the color of the four sides of an element's…element's border: border-top-color, border-right-color, border-bottom-color, border-left-color"
+      "description": "A shorthand property for setting the color of the four sides of an element's border."
     },
     "border-width": {
       "values": [
@@ -271,7 +269,7 @@
         "thick",
         "inherit"
       ],
-      "description": "Sets the width of the border of a box."
+      "description": "A shorthand property for setting the widths on all four sides of an element's border: border-top-width, border-right-width, border-bottom-width, and border-left-width."
     },
     "position": {
       "values": [
@@ -282,7 +280,7 @@
         "sticky",
         "inherit"
       ],
-      "description": "Chooses alternative rules for positioning elements, designed to be useful for"
+      "description": "Specifies how an element is positioned in a document."
     },
     "text-align": {
       "values": [
@@ -292,20 +290,18 @@
         "right",
         "inherit"
       ],
-      "description": "Describes how inline content like text is aligned in its parent block element…element."
+      "description": "Describes how inline content like text is aligned in its parent block element."
     },
     "background": {
       "values": [],
-      "description": "background-color, background-image, background-origin, background-position, background-repeat, background-size, and …sheet."
+      "description": "The CSS background shorthand property lets you adjust all of the available background style options at once, including color image, origin and size, repeat method, and other features."
     },
     "background-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the background color of an element, either through a color value"
+      "description": "Sets the background color of an element, using either a color value or the keyword transparent."
     },
     "background-position": {
       "values": [
@@ -315,7 +311,7 @@
         "bottom",
         "top"
       ],
-      "description": "Sets the initial position, relative to the background position layer…layer defined by background-origin for each defined background image."
+      "description": "Sets the initial position for each defined background image, relative to the background position layer defined by background-origin."
     },
     "background-repeat": {
       "values": [
@@ -337,7 +333,7 @@
         "repeating-radial-gradient()",
         "url()"
       ],
-      "description": "Sets one or several background images for an element."
+      "description": "Sets one or more background images on an element."
     },
     "background-size": {
       "values": [
@@ -345,7 +341,7 @@
         "contain",
         "cover"
       ],
-      "description": "Specifies the size of the background images."
+      "description": "Specifies the size of an element's background image."
     },
     "background-clip": {
       "values": [
@@ -354,35 +350,35 @@
         "padding-box",
         "inherit"
       ],
-      "description": "Specifies whether an element's background, either the color or image"
+      "description": "Specifies if an element's background, whether a color or an image, extends underneath its border."
     },
     "right": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Specifies part of the position of positioned elements."
+      "description": "Participates in specifying the horizontal position of a positioned element."
     },
     "left": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Specifies part of the position of positioned elements."
+      "description": "Participates in specifying the horizontal position of a positioned element."
     },
     "top": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Specifies part of the position of positioned elements."
+      "description": "Participates in specifying the vertical position of a positioned element."
     },
     "bottom": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Participates in specifying the position of positioned elements."
+      "description": "Participates in specifying the vertical position of a positioned element."
     },
     "overflow": {
       "values": [
@@ -392,7 +388,7 @@
         "visible",
         "inherit"
       ],
-      "description": "Specifies whether to clip content, render scrollbars or just display content when…when it overflows its block level container."
+      "description": "Shorthand for the overflow-x and overflow-y properties, and specifies what to do when content is too large to fit in its block-level container."
     },
     "overflow-x": {
       "values": [
@@ -402,7 +398,7 @@
         "visible",
         "inherit"
       ],
-      "description": "Specifies whether to clip content, render a scroll bar, or display overflow content…content of a block-level element, when it overflows at the left and right edges."
+      "description": "Specifies whether to clip content, render a scroll bar, or display overflow content of a block-level element, when it overflows at the left and right edges."
     },
     "overflow-y": {
       "values": [
@@ -412,13 +408,13 @@
         "visible",
         "inherit"
       ],
-      "description": "Specifies whether to clip content, render a scroll bar, or display overflow content…content of a block-level element, when it overflows at the top and bottom edges."
+      "description": "Specifies whether to clip content, render a scroll bar, or display overflow content of a block-level element, when it overflows at the top and bottom edges."
     },
     "opacity": {
       "values": [
         "inherit"
       ],
-      "description": "Specifies the transparency of an element, that is, the degree to which the background"
+      "description": "Specifies the level of transparency of an element, that is, the degree to which the content behind the element is visible."
     },
     "cursor": {
       "values": [
@@ -460,12 +456,14 @@
         "zoom-in",
         "zoom-out"
       ],
-      "description": "Specifies the mouse cursor displayed when the mouse pointer is over an element"
+      "description": "Specifies which mouse cursor to display when the mouse pointer is over an element."
     },
     "display": {
       "values": [
         "block",
+        "contents",
         "flex",
+        "flow-root",
         "grid",
         "inline",
         "inline-block",
@@ -475,6 +473,7 @@
         "list-item",
         "none",
         "run-in",
+        "subgrid",
         "table",
         "table-caption",
         "table-cell",
@@ -490,12 +489,10 @@
     },
     "color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the foreground color of an element's text content, and its decorations."
+      "description": "Sets the foreground color value of an element's text content and text decorations."
     },
     "visibility": {
       "values": [
@@ -504,7 +501,7 @@
         "visible",
         "inherit"
       ],
-      "description": "Can be used to hide an element while leaving the space where it would have been"
+      "description": "Can show or hide an element without affecting the layout of a document (i."
     },
     "float": {
       "values": [
@@ -513,7 +510,7 @@
         "none",
         "inherit"
       ],
-      "description": "Specifies that an element should be taken from the normal flow and placed along"
+      "description": "Specifies that an element should be placed along the left or right side of its container, allowing text and inline elements to wrap around it."
     },
     "text-decoration": {
       "values": [
@@ -523,21 +520,21 @@
         "underline",
         "inherit"
       ],
-      "description": "Used to set the text formatting to underline, overline, line-through…blink."
+      "description": "Specifies the appearance of decorative lines used on text."
     },
     "line-height": {
       "values": [
         "normal",
         "inherit"
       ],
-      "description": "block level elements, the line-height property specifies the minimum height of line boxes within the element"
+      "description": "Sets the amount of space used for lines, such as in text."
     },
     "z-index": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Specifies the z-order of an element and its descendants."
+      "description": "Specifies the z-order of a positioned element and its descendants."
     },
     "vertical-align": {
       "values": [
@@ -557,10 +554,9 @@
       "values": [
         "border-box",
         "content-box",
-        "padding-box",
         "inherit"
       ],
-      "description": "Used to alter the default CSS box model used to calculate widths and heights…of browsers that do not correctly support the CSS box model specification."
+      "description": "Used to alter the default CSS box model used to calculate width and height of the elements."
     },
     "clear": {
       "values": [
@@ -581,20 +577,20 @@
         "pre-wrap",
         "inherit"
       ],
-      "description": "Used to describe how whitespace inside the element is handled."
+      "description": "Determines how whitespace inside an element is handled."
     },
     "max-width": {
       "values": [
         "none",
         "inherit"
       ],
-      "description": "Used to set the maximum width of a given element."
+      "description": "Sets the maximum width of an element."
     },
     "outline": {
       "values": [
         "inherit"
       ],
-      "description": "properties outline-style, outline-width and outline-color in a single declaration."
+      "description": "A shorthand property for setting one or more of the individual outline properties outline-style, outline-width, and outline-color in a single declaration."
     },
     "content": {
       "values": [
@@ -607,47 +603,49 @@
         "open-quote",
         "inherit"
       ],
-      "description": "Used with the ::before and ::after pseudo-elements to generate content in…in an element."
+      "description": "Used with the ::before and ::after pseudo-elements to generate content in an element."
     },
     "min-width": {
       "values": [
         "inherit"
       ],
-      "description": "Used to set the minimum width of a given element."
+      "description": "Sets the minimum width of an element."
     },
     "min-height": {
       "values": [
         "inherit"
       ],
-      "description": "Used to set the minimum height of a given element."
+      "description": "Sets the minimum height of an element."
     },
     "list-style": {
       "values": [
+        "none",
+        "inherit",
+        "initial",
+        "unset",
+        "url()",
         "armenian",
         "circle",
         "decimal",
         "decimal-leading-zero",
         "disc",
         "georgian",
-        "inherit",
         "inside",
         "lower-alpha",
         "lower-greek",
         "lower-latin",
         "lower-roman",
-        "none",
         "outside",
         "square",
         "upper-alpha",
         "upper-latin",
-        "upper-roman",
-        "url()"
+        "upper-roman"
       ],
-      "description": "A shorthand property for setting list-style-type, list-style-image and list-style-position"
+      "description": "A shorthand for setting the individual values that define how a list is displayed: list-style-type, list-style-image, and list-style-position."
     },
     "box-shadow": {
       "values": [],
-      "description": "Describes one or more shadow effects as a comma-separated list."
+      "description": "Used to add shadow effects around an element's frame."
     },
     "text-shadow": {
       "values": [],
@@ -657,14 +655,14 @@
       "values": [
         "inherit"
       ],
-      "description": "Specifies how much horizontal space should be left before the beginning of the…the first line of the text content of an element."
+      "description": "Specifies the amount of indentation (empty space) that is put before lines of text in a block."
     },
     "max-height": {
       "values": [
         "none",
         "inherit"
       ],
-      "description": "Used to set the maximum height of an element."
+      "description": "Sets the maximum height of an element."
     },
     "text-overflow": {
       "values": [
@@ -672,7 +670,7 @@
         "ellipsis",
         "inherit"
       ],
-      "description": "Determines how overflowed content that is not displayed is signaled to users"
+      "description": "Determines how overflowed content that is not displayed is signaled to users."
     },
     "border-style": {
       "values": [
@@ -688,13 +686,13 @@
         "solid",
         "inherit"
       ],
-      "description": "A shorthand property for setting the line style for all four sides of the…the elements border."
+      "description": "A shorthand property that sets the line style for all four sides of an element's border."
     },
     "border-spacing": {
       "values": [
         "inherit"
       ],
-      "description": "Specifies the distance between the borders of adjacent table cells (only…(only for the separated borders model)."
+      "description": "Specifies the distance between the borders of adjacent table cells."
     },
     "border-collapse": {
       "values": [
@@ -702,16 +700,14 @@
         "separate",
         "inherit"
       ],
-      "description": "Determines whether a table's borders are separated or collapsed."
+      "description": "Specifies whether a table's borders are separated (cells have distinct borders from each other) or collapsed (adjacent cells share borders)."
     },
     "border-left-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the color of the bottom border of an element."
+      "description": "Sets the color of an element's left border."
     },
     "border-left-style": {
       "values": [
@@ -727,7 +723,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Sets the line style of the left border of a box."
+      "description": "Sets the line style of an element's left border."
     },
     "border-left-width": {
       "values": [
@@ -740,12 +736,10 @@
     },
     "border-right-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the color of the right border of an element."
+      "description": "Sets the color of an element's right border."
     },
     "border-right-style": {
       "values": [
@@ -761,7 +755,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Sets the line style of the right border of a box."
+      "description": "Sets the line style of an element's right border."
     },
     "border-right-width": {
       "values": [
@@ -774,12 +768,10 @@
     },
     "border-top-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the color of the top border of an element."
+      "description": "Sets the color of an element's top border."
     },
     "border-top-style": {
       "values": [
@@ -795,7 +787,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Sets the line style of the top border of a box."
+      "description": "Sets the line style of an element's top border."
     },
     "border-top-width": {
       "values": [
@@ -808,12 +800,10 @@
     },
     "border-bottom-color": {
       "values": [
-        "currentColor",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the color of the bottom border of an element."
+      "description": "Sets the color of an element's bottom border."
     },
     "border-bottom-style": {
       "values": [
@@ -829,7 +819,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Sets the line style of the bottom border of a box."
+      "description": "Sets the line style of an element's bottom border."
     },
     "border-bottom-width": {
       "values": [
@@ -850,11 +840,21 @@
     },
     "border-bottom-left-radius": {
       "values": [],
-      "description": "Sets the rounding of the bottom-left corner of the element"
+      "description": "Sets the rounding of the bottom-left corner of the element."
     },
     "border-bottom-right-radius": {
       "values": [],
-      "description": "Sets the rounding of the bottom-right corner of the element"
+      "description": "Sets the rounding of the bottom-right corner of the element."
+    },
+    "user-select": {
+      "values": [
+        "all",
+        "auto",
+        "contain",
+        "none",
+        "text"
+      ],
+      "description": "Controls whether the user can select text."
     },
     "text-transform": {
       "values": [
@@ -892,19 +892,18 @@
       "values": [
         "break-word",
         "normal"
-      ],
-      "description": "Used to specify whether or not the browser may break lines within words in order"
+      ]
     },
     "transition": {
       "values": [],
-      "description": "A shorthand property for transition-property, transition-duration, tr…transition-timing-function, and transition-delay."
+      "description": "A shorthand property for transition-property, transition-duration, transition-timing-function, and transition-delay."
     },
     "letter-spacing": {
       "values": [
         "normal",
         "inherit"
       ],
-      "description": "Specifies spacing behavior between text characters."
+      "description": "Specifies the spacing behavior between text characters."
     },
     "transform": {
       "values": [
@@ -946,7 +945,7 @@
         "visiblePainted",
         "visibleStroke"
       ],
-      "description": "Pointer-events allows authors to control under what circumstances (if any) a particular…graphic element can become the target of mouse events."
+      "description": "Specifies under what circumstances (if any) a particular graphic element can become the target of mouse events."
     },
     "direction": {
       "values": [
@@ -954,7 +953,7 @@
         "rtl",
         "inherit"
       ],
-      "description": "Set the direction CSS property to match the direction of the text: rtl for languages written from right-to-left…the dir attribute in HTML) rather than through direct use of CSS."
+      "description": "Sets the direction of text, table columns, and horizontal overflow."
     },
     "clip": {
       "values": [
@@ -969,7 +968,7 @@
         "fixed",
         "inherit"
       ],
-      "description": "Defines the algorithm to be used to layout the table cells, rows, and columns"
+      "description": "Specifies the algorithm used to lay out table cells, rows, and columns."
     },
     "src": {
       "values": [
@@ -984,7 +983,7 @@
         "vertical",
         "inherit"
       ],
-      "description": "Lets you control the resizability of an element."
+      "description": "The resize CSS sets whether an element is resizable, and if so, in which direction(s)."
     },
     "word-break": {
       "values": [
@@ -992,7 +991,7 @@
         "break-all",
         "keep-all"
       ],
-      "description": "Used to specify whether to break lines within words."
+      "description": "Specifies whether or not the browser should insert line breaks wherever the text would otherwise overflow its content box."
     },
     "filter": {
       "values": [
@@ -1010,7 +1009,7 @@
         "saturate()",
         "url()"
       ],
-      "description": "Provides for effects like blurring or color shifting on an element’s rendering before…before the element is displayed."
+      "description": "Lets you apply graphical effects like blurring or color shifting to an element."
     },
     "transform-origin": {
       "values": [
@@ -1028,7 +1027,7 @@
         "small-caps",
         "inherit"
       ],
-      "description": "properties: font-variant-caps, font-variant-numeric, font-variant-alternates, font-variant-ligatures,…and font-variant-east-asian."
+      "description": "A shorthand for the longhand properties font-variant-caps, font-variant-numeric, font-variant-alternates, font-variant-ligatures, and font-variant-east-asian."
     },
     "quotes": {
       "values": [
@@ -1044,14 +1043,14 @@
         "normal",
         "inherit"
       ],
-      "description": "Together with the direction property relates to the handling of bidirectional…right-to-left text then the user-agent uses a complex Unicode algorithm to decide how to display the text."
+      "description": "The unicode-bidi CSS property, together with the direction property, determines how bidirectional text in a document is handled."
     },
     "word-spacing": {
       "values": [
         "normal",
         "inherit"
       ],
-      "description": "Specifies spacing behavior between tags and words."
+      "description": "Specifies the spacing behavior between tags and words."
     },
     "text-rendering": {
       "values": [
@@ -1060,17 +1059,15 @@
         "optimizeLegibility",
         "optimizeSpeed"
       ],
-      "description": "Provides information to the rendering engine about what to optimize for…for when rendering text."
+      "description": "Provides information to the rendering engine about what to optimize for when rendering text."
     },
     "outline-color": {
       "values": [
-        "currentColor",
         "invert",
-        "inherit",
-        "transparent"
+        "inherit"
       ],
       "type": "color",
-      "description": "Sets the color of the outline of an element."
+      "description": "Sets the color of an element's outline."
     },
     "list-style-position": {
       "values": [
@@ -1078,19 +1075,19 @@
         "outside",
         "inherit"
       ],
-      "description": "Specifies the position of the marker box in the principal block box"
+      "description": "Specifies the position of the marker box in the principal block box."
     },
     "outline-offset": {
       "values": [
         "inherit"
       ],
-      "description": "Used to set space between an outline and the edge or border of an…an element."
+      "description": "Sets the amount of space between an outline and the edge or border of an element."
     },
     "orphans": {
       "values": [
         "inherit"
       ],
-      "description": "Refers to the minimum number of lines in a block container that must be left"
+      "description": "Specifies the minimum number of lines in a block container that must be shown at the bottom of a page, region, or column."
     },
     "outline-style": {
       "values": [
@@ -1106,7 +1103,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Used to set the style of the outline of an element."
+      "description": "Sets the style of an element's outline."
     },
     "outline-width": {
       "values": [
@@ -1115,7 +1112,7 @@
         "thick",
         "inherit"
       ],
-      "description": "Used to set the width of the outline of an element."
+      "description": "Sets the width (thickness) of an element's outline."
     },
     "flex": {
       "values": [
@@ -1123,7 +1120,7 @@
         "initial",
         "none"
       ],
-      "description": "A shorthand property specifying the ability of a flex item to alter its dimensions…available space."
+      "description": "Specifies how a flex item will grow or shrink so as to fit the space available in its flex container."
     },
     "flex-grow": {
       "values": [],
@@ -1136,7 +1133,7 @@
         "row",
         "row-reverse"
       ],
-      "description": "Specifies how flex items are placed in the flex container defining the…the main axis and the direction (normal or reversed)."
+      "description": "Specifies how flex items are placed in the flex container defining the main axis and the direction (normal or reversed)."
     },
     "flex-flow": {
       "values": [
@@ -1148,7 +1145,7 @@
         "wrap",
         "wrap-reverse"
       ],
-      "description": "A shorthand property for flex-direction and flex-wrap individual properties"
+      "description": "A shorthand property for flex-direction and flex-wrap individual properties."
     },
     "flex-wrap": {
       "values": [
@@ -1156,7 +1153,7 @@
         "wrap",
         "wrap-reverse"
       ],
-      "description": "Specifies whether flex items are forced into a single line or can be wrapped…wrapped onto multiple lines."
+      "description": "Specifies whether flex items are forced into a single line or can be wrapped onto multiple lines."
     },
     "flex-shrink": {
       "values": [],
@@ -1166,7 +1163,7 @@
       "values": [
         "auto"
       ],
-      "description": "Specifies the flex basis which is the initial main size of a flex item."
+      "description": "Specifies the initial main size of a flex item."
     },
     "list-style-image": {
       "values": [
@@ -1177,8 +1174,7 @@
       "description": "Specifies an image to be used as the list item marker."
     },
     "unicode-range": {
-      "values": [],
-      "description": "The unicode-range CSS descriptor sets the specific range of characters to be downloaded from a font defined"
+      "values": []
     },
     "align-items": {
       "values": [
@@ -1188,15 +1184,15 @@
         "flex-start",
         "stretch"
       ],
-      "description": "Aligns flex items of the current flex line the same way as justify-content"
+      "description": "Defines how the browser distributes space between and around flex items along the cross-axis of their container."
     },
     "transition-delay": {
       "values": [],
-      "description": "Specifies the amount of time to wait between a change being requested to…to a property that is to be transitioned and the start of the transition effect."
+      "description": "Specifies the amount of time to wait between a change being requested to a property that is to be transitioned and the start of the transition effect."
     },
     "transition-duration": {
       "values": [],
-      "description": "Specifies the number of seconds or milliseconds a transition animation"
+      "description": "Specifies the number of seconds or milliseconds a transition animation should take to complete."
     },
     "justify-content": {
       "values": [
@@ -1206,22 +1202,22 @@
         "space-around",
         "space-between"
       ],
-      "description": "Defines how the browser distributes space between and around flex items"
+      "description": "Defines how the browser distributes space between and around content items along the main axis of their container."
     },
     "transition-property": {
       "values": [
         "all",
         "none"
       ],
-      "description": "Used to specify the names of CSS properties to which a transition"
+      "description": "Used to specify the names of CSS properties to which a transition effect should be applied."
     },
     "order": {
       "values": [],
-      "description": "ascending order of the order value."
+      "description": "Specifies the order used to lay out flex items in their flex container."
     },
     "transition-timing-function": {
       "values": [
-        "cubic-bezier(.42, 0, .58, 1)",
+        "cubic-bezier()",
         "ease",
         "ease-in",
         "ease-in-out",
@@ -1231,7 +1227,7 @@
         "step-start",
         "steps()"
       ],
-      "description": "Used to describe how the intermediate values of the CSS properties…CSS properties being affected by a transition effect are calculated."
+      "description": "Used to describe how the intermediate values of the CSS properties being affected by a transition effect are calculated."
     },
     "background-attachment": {
       "values": [
@@ -1240,7 +1236,7 @@
         "scroll",
         "inherit"
       ],
-      "description": "If a background-image is specified, the background-attachment CSS property determines whether that image's"
+      "description": "If a background-image is specified, the background-attachment CSS property determines whether that image's position is fixed within the viewport, or scrolls along with its containing block."
     },
     "background-origin": {
       "values": [
@@ -1249,14 +1245,14 @@
         "padding-box",
         "inherit"
       ],
-      "description": "Determines the background positioning area, that is the position of…of the origin of an image specified using the background-image CSS property."
+      "description": "Sets the background positioning area, i."
     },
     "backface-visibility": {
       "values": [
         "hidden",
         "visible"
       ],
-      "description": "CSS backface-visibility property determines whether or not the back face of the element is visible when…always is a transparent background, letting, when visible, a mirror image of the front face be displayed"
+      "description": "Determines whether or not the back face of the element is visible when facing the user."
     },
     "page-break-inside": {
       "values": [
@@ -1281,21 +1277,21 @@
       "values": [
         "inherit"
       ],
-      "description": " a widow is the last line of a paragraph appearing alone at the top of a page."
+      "description": "Specifies the minimum number of lines in a block container that must be shown at the top of a page, region, or column."
     },
     "counter-increment": {
       "values": [
         "none",
         "inherit"
       ],
-      "description": "Used to increase the value of CSS Counters by a given value."
+      "description": "Increases or decreases the value of a CSS counter by a given value."
     },
     "counter-reset": {
       "values": [
         "none",
         "inherit"
       ],
-      "description": "Used to reset CSS Counters to a given value."
+      "description": "Resets a CSS counter to a given value."
     },
     "perspective-origin": {
       "values": [
@@ -1305,13 +1301,13 @@
         "right",
         "top"
       ],
-      "description": "Determines the position the viewer is looking at."
+      "description": "Determines the position at which the viewer is looking."
     },
     "perspective": {
       "values": [
         "none"
       ],
-      "description": "Determines the distance between the z=0 plane and the user in order to give…give to the 3D-positioned element some perspective."
+      "description": "Determines the distance between the z=0 plane and the user in order to give to the 3D-positioned element some perspective."
     },
     "empty-cells": {
       "values": [
@@ -1319,7 +1315,7 @@
         "show",
         "inherit"
       ],
-      "description": "Specifies how user agents should render borders and backgrounds around cells…cells that have no visible content."
+      "description": "Specifies how the user agent should render borders and backgrounds around table cells that have no visible content."
     },
     "caption-side": {
       "values": [
@@ -1327,14 +1323,14 @@
         "top",
         "inherit"
       ],
-      "description": "Positions the content of a table's caption on the specified side."
+      "description": "Puts the content of a table's caption on the specified side."
     },
     "transform-style": {
       "values": [
         "flat",
         "preserve-3d"
       ],
-      "description": "Determines if the children of the element are positioned in the 3D-space"
+      "description": "Determines if the children of the element are positioned in the 3D-space or are flattened in the plane of the element."
     },
     "border-image": {
       "values": [
@@ -1356,9 +1352,22 @@
       ],
       "description": "Selects a normal, condensed, or expanded face from a font."
     },
+    "will-change": {
+      "values": [
+        "auto",
+        "contents",
+        "opacity",
+        "scroll-position",
+        "transform",
+        "inherit",
+        "initial",
+        "unset"
+      ],
+      "description": "Provides a way for authors to hint browsers about the kind of changes to be expected on an element, so that the browser can set up appropriate optimizations ahead of time before the element is actually changed."
+    },
     "animation": {
       "values": [],
-      "description": "A shorthand property for animation-name, animation-duration, animation-timing-function…animation-timing-function, animation-delay, animation-iteration-count, animation-direction, animation-fill-mode and…and animation-play-state."
+      "description": "A shorthand property for the various animation properties: animation-name, animation-duration, animation-timing-function, animation-delay, animation-iteration-count, animation-direction, animation-fill-mode, and animation-play-state."
     },
     "page-break-before": {
       "values": [
@@ -1380,7 +1389,7 @@
         "flex-start",
         "stretch"
       ],
-      "description": "Aligns flex items of the current flex line overriding the align-items value…item's cross-axis margin is set to auto, then align-self is ignored."
+      "description": "Aligns flex items of the current flex line overriding the align-items value."
     },
     "align-content": {
       "values": [
@@ -1391,21 +1400,21 @@
         "space-between",
         "stretch"
       ],
-      "description": "Aligns a flex container's lines within the flex container when there is"
+      "description": "Defines how the browser distributes space between and around content items along the cross-axis of their container, which is serving as a flexible box container."
     },
     "border-image-slice": {
       "values": [],
-      "description": "Divides the image specified by border-image-source in nine regions:"
+      "description": "Divides the image specified by border-image-source in nine regions: the four corners, the four edges and the middle."
     },
     "border-image-width": {
       "values": [
         "auto"
       ],
-      "description": "Defines the width of the border."
+      "description": "Defines the width of the border image by defining inward offsets from the border edges."
     },
     "border-image-outset": {
       "values": [],
-      "description": "Describes by what amount the border image area extends beyond the border"
+      "description": "Describes by what amount the border image area extends beyond the border box."
     },
     "border-image-repeat": {
       "values": [
@@ -1414,7 +1423,11 @@
         "space",
         "stretch"
       ],
-      "description": "Defines how the middle part of a border image is handled so that…that it can match the size of the border."
+      "description": "Defines how the middle part of a border image is handled so that it can match the size of the border."
+    },
+    "tab-size": {
+      "values": [],
+      "description": "Used to customize the width of a tab (U+0009) character."
     },
     "object-fit": {
       "values": [
@@ -1424,7 +1437,7 @@
         "none",
         "scale-down"
       ],
-      "description": "Specifies how the contents of a replaced element should be fitted to the"
+      "description": "Specifies how a replaced element, such as an img or video, should be resized to fit its container."
     },
     "font-kerning": {
       "values": [
@@ -1432,17 +1445,17 @@
         "none",
         "normal"
       ],
-      "description": "Controls the usage of the kerning information; that is, it controls how…are spaced."
+      "description": "Controls the usage of the kerning information stored in a font."
     },
     "animation-name": {
       "values": [
         "none"
       ],
-      "description": "Specifies a list of animations that should be applied to the selected…element."
+      "description": "Specifies one or more animations that should be applied to an element."
     },
     "animation-duration": {
       "values": [],
-      "description": "Specifies the length of time that an animation should take to complete"
+      "description": "Specifies the length of time that an animation should take to complete one cycle."
     },
     "border-image-source": {
       "values": [],
@@ -1455,11 +1468,11 @@
         "forwards",
         "none"
       ],
-      "description": "Specifies how a CSS animation should apply styles to its target"
+      "description": "Specifies how a CSS animation should apply styles to its target before and after its execution."
     },
     "animation-timing-function": {
       "values": [
-        "cubic-bezier(.42, 0, .58, 1)",
+        "cubic-bezier()",
         "ease",
         "ease-in",
         "ease-in-out",
@@ -1469,24 +1482,24 @@
         "step-start",
         "steps()"
       ],
-      "description": "Specifies how a CSS animation should progress over the duration…cycle."
+      "description": "Specifies how a CSS animation should progress over the duration of each cycle."
     },
     "animation-iteration-count": {
       "values": [
         "infinite"
       ],
-      "description": "Defines the number of times an animation cycle should be played"
+      "description": "Specifies the number of times an animation cycle should be played before stopping."
     },
     "animation-delay": {
       "values": [],
-      "description": "Specifies when the animation should start."
+      "description": "Specifies when an animation should start."
     },
     "font-variant-ligatures": {
       "values": [
         "normal",
         "none"
       ],
-      "description": "Controls which ligatures and contextual forms are used in textual"
+      "description": "Controls which ligatures and contextual forms are used in textual content of the elements it applies to."
     },
     "background-blend-mode": {
       "values": [
@@ -1500,14 +1513,14 @@
         "hue",
         "lighten",
         "luminosity",
-        "normal",
         "multiply",
+        "normal",
         "overlay",
         "saturation",
         "screen",
         "soft-light"
       ],
-      "description": "Describes how the element's background images should blend with…with each other and the element's background color."
+      "description": "Describes how the element's background images should blend with each other and the element's background color."
     },
     "object-position": {
       "values": [
@@ -1517,7 +1530,28 @@
         "bottom",
         "top"
       ],
-      "description": "Determines the alignment of the replaced element inside its box."
+      "description": "Determines the alignment of the selected element inside its box."
+    },
+    "mix-blend-mode": {
+      "values": [
+        "color",
+        "color-burn",
+        "color-dodge",
+        "darken",
+        "difference",
+        "exclusion",
+        "hard-light",
+        "hue",
+        "lighten",
+        "luminosity",
+        "multiply",
+        "normal",
+        "overlay",
+        "saturation",
+        "screen",
+        "soft-light"
+      ],
+      "description": "Describes how an element's content should blend with the content of the element's direct parent and the element's background."
     },
     "shape-outside": {
       "values": [
@@ -1538,15 +1572,22 @@
         "repeating-linear-gradient()",
         "repeating-radial-gradient()"
       ],
-      "description": "Uses shape values to define the float area for a float and will cause…cause inline content to wrap around the shape instead of the float's bounding box."
+      "description": "Defines a shape around which inline content should wrap."
     },
     "shape-margin": {
       "values": [],
       "description": "Adds a margin to shape-outside."
     },
+    "isolation": {
+      "values": [
+        "auto",
+        "isolate"
+      ],
+      "description": "Defines if the element must create a new stacking context."
+    },
     "shape-image-threshold": {
       "values": [],
-      "description": "Defines the alpha channel threshold used to extract the shape using…using an image as the value for shape-outside."
+      "description": "Defines the alpha channel threshold used to extract the shape using an image as the value for shape-outside."
     },
     "animation-direction": {
       "values": [
@@ -1555,14 +1596,18 @@
         "normal",
         "reverse"
       ],
-      "description": "Indicates whether the animation should play in reverse on alternate"
+      "description": "Specifies whether an animation should play forwards, backwards, or alternating back and forth."
     },
     "animation-play-state": {
       "values": [
         "paused",
         "running"
       ],
-      "description": "Determines whether an animation is running or paused."
+      "description": "Specifies whether an animation is running or paused."
+    },
+    "all": {
+      "values": [],
+      "description": "The CSS all shorthand property resets all properties, apart from unicode-bidi and direction, to their initial or inherited value."
     },
     "column-fill": {
       "values": [
@@ -1579,15 +1624,12 @@
         "right",
         "inherit"
       ],
-      "description": "Describes how the last line of a block or a line, right before a forced…forced line break, is aligned."
+      "description": "Describes how the last line of a block or a line, right before a forced line break, is aligned."
     },
     "text-decoration-color": {
-      "values": [
-        "currentColor",
-        "transparent"
-      ],
+      "values": [],
       "type": "color",
-      "description": "Sets the color used when drawing underlines, overlines, or strike-throughs…strike-throughs specified by text-decoration-line."
+      "description": "Sets the color of the decorative additions to text that are specified by text-decoration-line ; these include underlines and overlines, strikethroughs, and wavy lines like those typically used to indicate content is misspelled (for example)."
     },
     "text-decoration-style": {
       "values": [
@@ -1597,7 +1639,7 @@
         "solid",
         "wavy"
       ],
-      "description": "Defines the style of the lines specified by text-decoration-line…text-decoration-line."
+      "description": "Sets the style of the lines specified by text-decoration-line."
     },
     "text-decoration-line": {
       "values": [
@@ -1606,14 +1648,14 @@
         "overline",
         "underline"
       ],
-      "description": "Sets what kind of line decorations are added to an element."
+      "description": "Sets the kind of decoration that is used on text in an element."
     },
     "font-size-adjust": {
       "values": [
         "auto",
         "none"
       ],
-      "description": "Specifies that font size should be chosen based on the height of lowercase…the legibility of fonts, especially at small sizes, is determined more by the size of lowercase letters…letters than by the size of capital letters."
+      "description": "Specifies that font size should be chosen based on the height of lowercase letters rather than the height of capital letters."
     },
     "text-underline-position": {
       "values": [
@@ -1623,11 +1665,90 @@
         "left",
         "right"
       ],
-      "description": "Specifies the position of the underline which is set using the…the text-decoration property underline value."
+      "description": "Specifies the position of the underline which is set using the text-decoration property's underline value."
+    },
+    "scroll-behavior": {
+      "values": [
+        "auto",
+        "smooth"
+      ],
+      "description": "Specifies the scrolling behavior for a scrolling box, when scrolling happens due to navigation or CSSOM scrolling APIs."
+    },
+    "grid-column": {
+      "values": [
+        "auto"
+      ],
+      "description": "A shorthand property for grid-column-start and grid-column-end specifying a grid item's size and location within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-start and inline-end edge of its grid area."
+    },
+    "grid-row": {
+      "values": [
+        "auto"
+      ],
+      "description": "A shorthand property for grid-row-start and grid-row-end specifying a grid item’s size and location within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-start and inline-end edge of its grid area."
+    },
+    "grid-template": {
+      "values": [
+        "none"
+      ],
+      "description": "A shorthand property for defining grid columns, rows, and areas."
+    },
+    "caret-color": {
+      "values": [
+        "auto"
+      ],
+      "type": "color",
+      "description": "Sets the color of the insertion caret—the visible indicator of the point at which the next character typed by the user will be inserted—within an element such as input or one with the contenteditable attribute set."
+    },
+    "grid-template-columns": {
+      "values": [
+        "auto"
+      ],
+      "description": "Defines the line names and track sizing functions of the grid columns."
+    },
+    "grid-auto-columns": {
+      "values": [],
+      "description": "Specifies the size of an implicitly-created grid column track."
+    },
+    "grid-auto-flow": {
+      "values": [
+        "row",
+        "column",
+        "dense"
+      ],
+      "description": "Controls how the auto-placement algorithm works, specifying exactly how auto-placed items get flowed into the grid."
+    },
+    "grid-auto-rows": {
+      "values": [],
+      "description": "Specifies the size of an implicitly-created grid row track."
+    },
+    "grid-column-start": {
+      "values": [],
+      "description": "Specifies a grid item’s start position within the grid column by contributing a line, a span, or nothing (automatic) to its grid placement."
+    },
+    "grid-template-rows": {
+      "values": [
+        "auto"
+      ],
+      "description": "Defines the line names and track sizing functions of the grid rows."
+    },
+    "grid-row-end": {
+      "values": [],
+      "description": "Specifies a grid item’s end position within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-end edge of its grid area."
+    },
+    "grid-column-end": {
+      "values": [],
+      "description": "Specifies a grid item’s end position within the grid column by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the block-end edge of its grid area."
+    },
+    "grid-row-start": {
+      "values": [],
+      "description": "Specifies a grid item’s start position within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-start edge of its grid area."
     },
     "box-decoration-break": {
-      "values": [],
-      "description": "Specifies how the background, padding, border, border-image, box-shadow…applied when the box for the element is fragmented."
+      "values": [
+        "clone",
+        "slice"
+      ],
+      "description": "Specifies how the background, padding, border, border-image, box-shadow, margin, and clip-path of an element are applied when the box for the element is fragmented."
     },
     "break-after": {
       "values": [
@@ -1643,7 +1764,7 @@
         "region",
         "right"
       ],
-      "description": "Describes how the page, column or region break behavior after the generated"
+      "description": "Defines how page, column, or region breaks should behave after a generated box."
     },
     "break-before": {
       "values": [
@@ -1659,7 +1780,7 @@
         "region",
         "right"
       ],
-      "description": "Describes how the page, column or region break behavior before the generated"
+      "description": "Defines how page, column, or region breaks should behave before a generated box."
     },
     "break-inside": {
       "values": [
@@ -1669,11 +1790,11 @@
         "avoid-page",
         "avoid-region"
       ],
-      "description": "Describes how the page, column or region break inside the generated box"
+      "description": "Defines how page, column, or region breaks should behave inside a generated box."
     },
     "columns": {
       "values": [],
-      "description": "A shorthand property allowing to set both the column-width and the column-count"
+      "description": "A shorthand property allowing to set both the column-width and the column-count properties at the same time."
     },
     "column-count": {
       "values": [],
@@ -1683,19 +1804,16 @@
       "values": [
         "normal"
       ],
-      "description": "Sets the size of the gap between columns for elements which are specified…specified to display as a multi-column element."
+      "description": "Sets the size of the gap between columns for elements which are specified to be displayed as multi-column elements."
     },
     "column-rule": {
       "values": [],
-      "description": "properties separately : column-rule-width, column-rule-style and column-rule-color."
+      "description": "In multi-column layouts, the column-rule CSS property specifies a straight line, or \"rule\", to be drawn between each column."
     },
     "column-rule-color": {
-      "values": [
-        "currentColor",
-        "transparent"
-      ],
+      "values": [],
       "type": "color",
-      "description": "Lets you set the color of the rule drawn between columns in multi-column…multi-column layouts."
+      "description": "Lets you set the color of the rule or line drawn between columns in multi-column layouts."
     },
     "column-rule-style": {
       "values": [
@@ -1711,7 +1829,7 @@
         "solid",
         "inherit"
       ],
-      "description": "Lets you set the style of the rule drawn between columns in multi-column…multi-column layouts."
+      "description": "Lets you set the style of the rule drawn between columns in multi-column layouts."
     },
     "column-rule-width": {
       "values": [
@@ -1720,21 +1838,21 @@
         "thick",
         "inherit"
       ],
-      "description": "Lets you set the width of the rule drawn between columns in multi-column…multi-column layouts."
+      "description": "Lets you set the width of the rule drawn between columns in multi-column layouts."
     },
     "column-span": {
       "values": [
         "all",
         "none"
       ],
-      "description": "Makes it possible for an element to span across all columns when its value…set to all."
+      "description": "Makes it possible for an element to span across all columns when its value is set to all."
     },
     "column-width": {
       "values": [
         "auto",
         "inherit"
       ],
-      "description": "Suggests an optimal column width."
+      "description": "Specifies the minimum column width."
     },
     "flow-into": {
       "values": [
@@ -1753,13 +1871,13 @@
       "values": [
         "normal"
       ],
-      "description": "Gives you control over advanced typographic features in OpenType…OpenType fonts."
+      "description": "Gives you control over advanced typographic features in OpenType fonts."
     },
     "font-language-override": {
       "values": [
         "normal"
       ],
-      "description": "Controls the usage of language-specific glyphs in a typeface"
+      "description": "Controls the usage of language-specific glyphs in a typeface."
     },
     "font-synthesis": {
       "values": [
@@ -1767,13 +1885,13 @@
         "style",
         "weight"
       ],
-      "description": "Controls which missing typefaces, bold or italic, may be synthesized"
+      "description": "Controls which missing typefaces, bold or italic, may be synthesized by the browser."
     },
     "font-variant-alternates": {
       "values": [
         "normal"
       ],
-      "description": "Controls the usage of alternate glyphs associated to alternative…alternative names defined in @font-feature-values."
+      "description": "Controls the usage of alternate glyphs."
     },
     "font-variant-caps": {
       "values": [
@@ -1791,13 +1909,13 @@
       "values": [
         "normal"
       ],
-      "description": "Controls the usage of alternate glyphs for East Asian scripts"
+      "description": "Controls the usage of alternate glyphs for East Asian scripts, like Japanese and Chinese."
     },
     "font-variant-numeric": {
       "values": [
         "normal"
       ],
-      "description": "Controls the usage of alternate glyphs for numbers, fractions,"
+      "description": "Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers."
     },
     "font-variant-position": {
       "values": [
@@ -1805,7 +1923,7 @@
         "sub",
         "super"
       ],
-      "description": "Controls the usage of alternate glyphs of smaller size positioned…superscript or subscript regarding the baseline of the font, which is set unchanged."
+      "description": "Controls the usage of alternate, smaller glyphs that are positioned as superscript or subscript relative to the baseline of the font (which remains unchanged)."
     },
     "hyphens": {
       "values": [
@@ -1813,7 +1931,7 @@
         "manual",
         "none"
       ],
-      "description": "Tells the browser how to hyphenate words when line-wrapping."
+      "description": "Specifies how words should be hyphenated when text wraps across multiple lines."
     },
     "image-orientation": {
       "values": [],
@@ -1888,17 +2006,17 @@
         "none",
         "objects",
         "spaces"
-      ]
+      ],
+      "description": "Specifies what parts of the element’s content any text decoration affecting the element must skip over."
     },
     "text-emphasis": {
-      "values": []
+      "values": [],
+      "description": "A shorthand property for setting text-emphasis-style and text-emphasis-color in one declaration."
     },
     "text-emphasis-color": {
-      "values": [
-        "currentColor",
-        "transparent"
-      ],
-      "type": "color"
+      "values": [],
+      "type": "color",
+      "description": "Defines the color used to draw emphasis marks on text being rendered in the HTML document."
     },
     "text-emphasis-position": {
       "values": [
@@ -1906,7 +2024,8 @@
         "below",
         "left",
         "right"
-      ]
+      ],
+      "description": "Describes where emphasis marks are drawn at."
     },
     "text-emphasis-style": {
       "values": [
@@ -1918,7 +2037,51 @@
         "open",
         "sesame",
         "triangle"
+      ],
+      "description": "Defines the type of emphasis used."
+    },
+    "font-display": {
+      "values": [
+        "auto",
+        "block",
+        "swap",
+        "fallback",
+        "optional"
       ]
+    },
+    "grid": {
+      "values": [],
+      "description": "A shorthand property that sets all of the explicit grid properties (grid-template-rows, grid-template-columns, and grid-template-areas), all the implicit grid properties (grid-auto-rows, grid-auto-columns, and grid-auto-flow), and the gutter properties (grid-column-gap and grid-row-gap) in a single declaration."
+    },
+    "grid-area": {
+      "values": [],
+      "description": "A shorthand property for grid-row-start, grid-column-start, grid-row-end and grid-column-end, specifying a grid item’s size and location within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the edges of its grid area."
+    },
+    "grid-column-gap": {
+      "values": [],
+      "description": "Specifies the gutter between grid columns."
+    },
+    "grid-gap": {
+      "values": [],
+      "description": "A shorthand property for grid-row-gap and grid-column-gap specifying the gutters between grid rows and columns."
+    },
+    "grid-row-gap": {
+      "values": [],
+      "description": "Specifies the gutter between grid rows."
+    },
+    "grid-template-areas": {
+      "values": [],
+      "description": "Specifies named grid areas."
+    },
+    "hanging-punctuation": {
+      "values": [
+        "allow-end",
+        "first",
+        "force-end",
+        "last",
+        "none"
+      ],
+      "description": "Specifies whether a punctuation mark should hang at the start or end of a line of text."
     }
   },
   "pseudoSelectors": {

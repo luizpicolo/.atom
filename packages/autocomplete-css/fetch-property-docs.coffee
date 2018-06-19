@@ -1,15 +1,14 @@
 path = require 'path'
 fs = require 'fs'
 request = require 'request'
-Promise = require 'bluebird'
 
 mdnCSSURL = 'https://developer.mozilla.org/en-US/docs/Web/CSS'
-mdnJSONAPI = 'https://developer.mozilla.org/en-US/search.json'
-propertiesURL = 'https://raw.githubusercontent.com/adobe/brackets/master/src/extensions/default/CSSCodeHints/CSSProperties.json'
+mdnJSONAPI = 'https://developer.mozilla.org/en-US/search.json?topic=css&highlight=false'
+PropertiesURL = 'https://raw.githubusercontent.com/adobe/brackets/master/src/extensions/default/CSSCodeHints/CSSProperties.json'
 
 fetch = ->
   propertiesPromise = new Promise (resolve) ->
-    request {json: true, url: propertiesURL}, (error, response, properties) ->
+    request {json: true, url: PropertiesURL}, (error, response, properties) ->
       if error?
         console.error(error.message)
         resolve(null)
@@ -20,7 +19,7 @@ fetch = ->
 
       resolve(properties)
 
-  docsPromise = propertiesPromise.then (properties) ->
+  propertiesPromise.then (properties) ->
     return unless properties?
 
     MAX = 10
@@ -44,9 +43,9 @@ fetch = ->
           run(propertyName)
 
       run = (propertyName) ->
-        url = "#{mdnJSONAPI}?q=#{propertyName}"
+        url = "#{mdnJSONAPI}&q=#{propertyName}"
         request {json: true, url}, (error, response, searchResults) ->
-          if !error? and response.statusCode is 200
+          if not error? and response.statusCode is 200
             handleRequest(propertyName, searchResults)
           else
             console.error "Req failed #{url}; #{response.statusCode}, #{error}"
@@ -62,17 +61,11 @@ fetch = ->
               break
         return
 
-      runNext() for i in [0..MAX]
+      runNext() for [0..MAX]
       return
 
-FixesForCrappyDescriptions =
-  border: 'Specifies all borders on an HTMLElement.'
-  clear: 'Specifies whether an element can be next to floating elements that precede it or must be moved down (cleared) below them.'
-
 filterExcerpt = (propertyName, excerpt) ->
-  return FixesForCrappyDescriptions[propertyName] if FixesForCrappyDescriptions[propertyName]?
   beginningPattern = /^the (css )?[a-z-]+ (css )?property (is )?(\w+)/i
-  excerpt = excerpt.replace(/<\/?mark>/g, '')
   excerpt = excerpt.replace beginningPattern, (match) ->
     matches = beginningPattern.exec(match)
     firstWord = matches[4]
