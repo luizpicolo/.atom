@@ -5,7 +5,7 @@
     ]
     telemetryConsent: "no"
   editor:
-    fontSize: 16
+    fontSize: 18
   "exception-reporting":
     userId: "2f9b05bb-a573-8afd-143a-b329372e7b0e"
   linter: {}
